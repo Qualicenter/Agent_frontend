@@ -1,39 +1,60 @@
 import styled from "styled-components";
-import TitleComponent from "./components/Title";
+import InfoCliente from "./components/InfoCliente";
+import Vehiculos from "./components/Vehiculos";
+import ClientScript from "./components/ClientScript";
 
 const Wrapper = styled.main`
-  display: grid;
-  grid-template-columns: 40% 60%;
-  grid-gap: 10px;
-  height: 100vh;
-`;
+    position: relative;
+    width: 1194px;
+    height: 834px;
+    display: flex;
+`
 
-const LeftColumn = styled.div`
-  display: grid;
-  grid-template-rows: 50% 50%;
-  justify-items: center;
-`;
+const Left = styled.section`
+    width: 30%;
+    height: 100%;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
 
-const RightColumn = styled.div`
-  display: grid;
-  grid-template-rows: 33.33% 33.33% 33.33%;
-  justify-items: center;
-`;
+const Right = styled.section`
+    width: 70%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .arriba {
+        height: 30%;
+        display: flex;
+        padding: 10px;
+        gap: 20px
+    }
+
+    .abajo {
+        height: 70%;
+        padding: 10px;
+    }
+`
 
 function App() {
-  return (
-    <Wrapper>
-      <LeftColumn>
-        <TitleComponent text="Acciones Rápidas" />
-        <TitleComponent text="Transcripción" />
-      </LeftColumn>
-      <RightColumn>
-        <TitleComponent text="Métricas Llamadas" />
-        <TitleComponent text="Información del cliente" />
-        <TitleComponent text="Botones llamada" />
-      </RightColumn>
-    </Wrapper>
-  );
+    return (
+        <Wrapper>
+            <Left>
+                <h1>Aqui podra contestar la llamada el agente</h1>
+            </Left>
+            <Right>
+                <div className="arriba">
+                    <InfoCliente nombre="Juan Perez" edad="25 años" poliza="Platino Ultra" tiempoEspera="--:--"/>
+                    <Vehiculos />
+                </div>
+                <div className="abajo">
+                    <ClientScript nombre="Juan Perez"/>
+                </div>
+            </Right>
+        </Wrapper>
+    );
 }
 
 export default App;
