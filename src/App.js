@@ -2,6 +2,8 @@ import styled from "styled-components";
 import InfoCliente from "./components/InfoCliente";
 import Vehiculos from "./components/Vehiculos";
 import ClientScript from "./components/ClientScript";
+import TitleComponent from "./components/Title";
+import TituloAcciones from "./components/TituloAcciones";
 
 const Wrapper = styled.main`
     position: relative;
@@ -43,6 +45,7 @@ function App() {
         <Wrapper>
             <Left>
                 <h1>Aqui podra contestar la llamada el agente</h1>
+                <TituloAcciones text="Acciones Rápidas"/>
             </Left>
             <Right>
                 <div className="arriba">
@@ -55,6 +58,8 @@ function App() {
             </Right>
         </Wrapper>
     );
+        
+        
 }
 
 export default App;
