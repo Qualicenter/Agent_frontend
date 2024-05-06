@@ -3,12 +3,16 @@ import InfoCliente from "./components/InfoCliente";
 import Vehiculos from "./components/Vehiculos";
 import ClientScript from "./components/ClientScript";
 import TituloAcciones from "./components/TituloAcciones";
+import BotonAyuda from "./components/BotonAyuda";
+import { useState } from "react";
+import VentanaAyuda from "./components/VentanaAyuda";
 
 const Wrapper = styled.main`
     position: relative;
     width: 1194px;
     height: 834px;
     display: flex;
+    z-index: 0;
 `
 
 const Left = styled.section`
@@ -40,11 +44,19 @@ const Right = styled.section`
 `
 
 function App() {
+    const [showVentanaAyuda, setShowVentanaAyuda] = useState(false);
+
+    const showVentanaHandler  = () => {
+        setShowVentanaAyuda(!showVentanaAyuda)
+    }
+
     return (
         <Wrapper>
+            {showVentanaAyuda && <VentanaAyuda cancelar={showVentanaHandler}/>}
             <Left>
                 <h1>Aqui podra contestar la llamada el agente</h1>
                 <TituloAcciones text="Acciones Rápidas"/>
+                <BotonAyuda action={showVentanaHandler}/>
             </Left>
             <Right>
                 <div className="arriba">
