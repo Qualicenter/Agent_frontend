@@ -6,6 +6,7 @@ const Title = styled.h1`
   margin-bottom: 22px;
   margin-top: 22px;
   text-align: center;
+  border: 1px solid blue;
 `;
 
 const TitleComponent = (props) => {
