@@ -4,6 +4,7 @@ import Vehiculos from "./components/Vehiculos";
 import ClientScript from "./components/ClientScript";
 import TituloAcciones from "./components/TituloAcciones";
 import BotonAyuda from "./components/BotonAyuda";
+import Transcripcion from "./components/Transcripcion";
 import { useState } from "react";
 import VentanaAyuda from "./components/VentanaAyuda";
 
@@ -20,6 +21,7 @@ const Left = styled.section`
     height: 100%;
     background-color: #f0f0f0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 `
@@ -54,10 +56,12 @@ function App() {
         <Wrapper>
             {showVentanaAyuda && <VentanaAyuda cancelar={showVentanaHandler}/>}
             <Left>
+                <Transcripcion/>
                 <h1>Aqui podra contestar la llamada el agente</h1>
                 <TituloAcciones text="Acciones Rápidas"/>
-                <BotonAyuda action={showVentanaHandler}/>
+                <BotonAyuda action={showVentanaHandler}/>  
             </Left>
+            
             <Right>
                 <div className="arriba">
                     <InfoCliente nombre="Juan Perez" edad="25 años" poliza="Platino Ultra" tiempoEspera="--:--"/>
