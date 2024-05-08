@@ -7,6 +7,7 @@ import BotonAyuda from "./components/BotonAyuda";
 import Transcripcion from "./components/Transcripcion";
 import { useState } from "react";
 import VentanaAyuda from "./components/VentanaAyuda";
+import {useTypewriter, Cursor} from 'react-simple-typewriter';
 
 const Wrapper = styled.main`
     position: relative;
@@ -46,6 +47,15 @@ const Right = styled.section`
 `
 
 function App() {
+    const {info} = useTypewriter({
+        
+        words: ['Agente', 'Cliente', 'Supervisor'],
+        loop: true,
+        deleteSpeed: 50,
+        typeSpeed: 100,
+        delaySpeed: 2000,
+        
+    });
     const [showVentanaAyuda, setShowVentanaAyuda] = useState(false);
 
     const showVentanaHandler  = () => {
@@ -56,7 +66,11 @@ function App() {
         <Wrapper>
             {showVentanaAyuda && <VentanaAyuda cancelar={showVentanaHandler}/>}
             <Left>
-                <Transcripcion/>
+                <h1 className="ventana-transcripcion">
+                    Soy un
+                    <Transcripcion text={info}/>
+                    <Cursor />
+                </h1>
                 <h1>Aqui podra contestar la llamada el agente</h1>
                 <TituloAcciones text="Acciones Rápidas"/>
                 <BotonAyuda action={showVentanaHandler}/>  
@@ -73,8 +87,7 @@ function App() {
             </Right>
         </Wrapper>
     );
-        
-        
+ 
 }
 
 export default App;
