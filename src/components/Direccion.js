@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "../styles/direccion.css";
 
 const Direccion = (props) => {
   const [direccion, setDireccion] = useState("");

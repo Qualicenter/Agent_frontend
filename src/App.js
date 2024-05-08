@@ -2,8 +2,6 @@ import styled from "styled-components";
 import InfoCliente from "./components/InfoCliente";
 import Vehiculos from "./components/Vehiculos";
 import ClientScript from "./components/ClientScript";
-import TituloAcciones from "./components/TituloAcciones";
-import BotonAyuda from "./components/BotonAyuda";
 import { useState } from "react";
 import VentanaAyuda from "./components/VentanaAyuda";
 
@@ -42,6 +40,21 @@ const Right = styled.section`
         padding: 10px;
     }
 `
+const BotonAyuda = styled.button`
+    position: absolute;
+    right: 0;
+    top: 30%;
+    margin: 20px;
+    background: #872a7b;
+    color:  white;
+    font-size: 18px;
+    padding: 10px;
+    font-weight: 600;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    cursor: pointer;
+`
+
 
 function App() {
     const [showVentanaAyuda, setShowVentanaAyuda] = useState(false);
@@ -55,8 +68,7 @@ function App() {
             {showVentanaAyuda && <VentanaAyuda cancelar={showVentanaHandler}/>}
             <Left>
                 <h1>Aqui podra contestar la llamada el agente</h1>
-                <TituloAcciones text="Acciones Rápidas"/>
-                <BotonAyuda action={showVentanaHandler}/>
+                <BotonAyuda onClick={showVentanaHandler}>Solicitar Ayuda</BotonAyuda>
             </Left>
             <Right>
                 <div className="arriba">
@@ -68,9 +80,7 @@ function App() {
                 </div>
             </Right>
         </Wrapper>
-    );
-        
-        
+    );  
 }
 
 export default App;
