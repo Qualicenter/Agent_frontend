@@ -4,6 +4,7 @@ import Vehiculos from "./components/Vehiculos";
 import ClientScript from "./components/ClientScript";
 import { useState } from "react";
 import VentanaAyuda from "./components/VentanaAyuda";
+import ConnectStreamsComponent from './components/ConnectStreamsComponent';
 
 const Wrapper = styled.main`
     position: relative;
@@ -67,7 +68,7 @@ function App() {
         <Wrapper>
             {showVentanaAyuda && <VentanaAyuda cancelar={showVentanaHandler}/>}
             <Left>
-                <h1>Aqui podra contestar la llamada el agente</h1>
+                <ConnectStreamsComponent/>
                 <BotonAyuda onClick={showVentanaHandler}>Solicitar Ayuda</BotonAyuda>
             </Left>
             <Right>
