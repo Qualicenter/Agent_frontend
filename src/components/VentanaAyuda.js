@@ -1,22 +1,27 @@
-import { useRef } from "react";
+import { useState } from "react";
 import "../styles/ventana-ayuda.css";
 
 const VentanaAyuda = (props) => {
-    const cancelar = props.cancelar
-    const inputRef = useRef();
+    const cancelar = props.cancelar;
+    const [message, setMessage] = useState("");
 
-    const enviarMensaje = (message) => {
+    const enviarMensaje = () => {
         console.log(message)
         cancelar()
+    }
+
+    const messageHandler = (e) => {
+        setMessage(e.target.value)
+        console.log(message)
     }
 
     return (
         <div className="ventana-ayuda-completa">
             <div className="ventana-ayuda">
                 <h1>Solicitud de ayuda</h1>
-                <label for="message">Ingrese su mensaje</label>
-                <input type="text" id="message" ref={inputRef}></input>
-                <button onClick={() => enviarMensaje(inputRef.current.value)}>Enviar</button>
+                <label htmlFor="message">Ingrese su mensaje</label>
+                <textarea type="text" id="message" onChange={messageHandler}></textarea>
+                <button onClick={enviarMensaje}>Enviar</button>
                 <button onClick={cancelar}>Cancelar</button>
             </div>
         </div>
