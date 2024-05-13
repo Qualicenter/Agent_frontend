@@ -94,7 +94,7 @@ const LoginPage = () => {
           <p>
             ¿Olvidaste tu contraseña?
             <br />
-            Haz click <a href="#">aquí</a>.
+            Haz click <a href="/forgot-passw">aquí</a>.
           </p>
         </div>
       </div>

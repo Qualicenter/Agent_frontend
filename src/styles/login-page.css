@@ -101,12 +101,12 @@
     transform: translate(0%, -50%);
 }
 
-h1 {
+.right-login h1 {
     font-size: 36px;
     margin-bottom: 20px;
 }
 
-p {
+.right-login p {
     position: absolute;
     bottom: 15%;
     font-size: 15px;
