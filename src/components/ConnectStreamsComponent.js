@@ -33,9 +33,9 @@ const ConnectStreamsComponent = () => {
         enableAudioDeviceSettings: false, // optional, defaults to 'false'
         enablePhoneTypeSettings: true    // optional, defaults to 'true' 
       },
-      ccpAckTimeout: 5000, // optional, defaults to 3000 (ms)
-      ccpSynTimeout: 3000, // optional, defaults to 1000 (ms)
-      ccpLoadTimeout: 10000 // optional, defaults to 5000 (ms)
+      ccpAckTimeout: 3000, // optional, defaults to 3000 (ms)
+      ccpSynTimeout: 1000, // optional, defaults to 1000 (ms)
+      ccpLoadTimeout: 4000 // optional, defaults to 5000 (ms)
     });
   };
 
