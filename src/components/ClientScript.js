@@ -22,7 +22,7 @@ const Container = styled.div`
         margin-top: 15px;
     }
 `
-const Form = styled.form`
+const Form = styled.div`
     width: 70%;
     padding: 0;
 
