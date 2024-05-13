@@ -1,4 +1,4 @@
-import { CognitoIdentityProviderClient, InitiateAuthCommand } from "@aws-sdk/client-cognito-identity-provider";
+import { CognitoIdentityProviderClient, ConfirmForgotPasswordCommand, ForgotPasswordCommand, InitiateAuthCommand } from "@aws-sdk/client-cognito-identity-provider";
 import config from "../config.json";
 
 export const cognitoClient = new CognitoIdentityProviderClient({
@@ -29,3 +29,37 @@ export const signIn = async (username, password) => {
       throw error;
     }
   };
+
+export const forgotPassw = async (username) => {
+  try {
+    const input = {
+      ClientId: config.clientId,
+      Username: username,
+    };
+
+    const command = new ForgotPasswordCommand(input);
+    const response = await cognitoClient.send(command);
+    console.log("Forgot password response: ", response);
+  } catch (error) {
+    console.error("Error forgot password: ", error);
+    throw error;
+  }
+}
+
+export const confirmForgotPassw = async (username, code, newPassword) => {
+  try {
+    const input = {
+      ClientId: config.clientId,
+      ConfirmationCode: code,
+      Password: newPassword,
+      Username: username,
+    };
+
+    const command = new ConfirmForgotPasswordCommand(input);
+    const response = await cognitoClient.send(command);
+    console.log("Confirm forgot password response: ", response);
+  } catch (error) {
+    console.error("Error confirm forgot password: ", error);
+    throw error;
+  }
+}
