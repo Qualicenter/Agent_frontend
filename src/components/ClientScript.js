@@ -59,6 +59,22 @@ const Banner = styled.div`
     z-index: 100;
 `;
 
+const BotonAyuda = styled.button`
+  position: absolute;
+  right: 0;
+  top: 30%;
+  margin: 20px;
+  background: #872a7b;
+  color: white;
+  font-size: 18px;
+  padding: 10px;
+  font-weight: 600;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  cursor: pointer;
+  width: 150px;
+`;
+
 const ClientScript = ( props ) => {
     const [direccion, setDireccion] = useState("");
     const [openModal, setOpenModal] = useState(false);
@@ -110,6 +126,7 @@ const ClientScript = ( props ) => {
             {ajustadorBanner && <Banner>
                     {servicioBanner} en camino a {direccion}
                 </Banner>}
+            <BotonAyuda onClick={props.funcVentanaAyuda}>Solicitar Ayuda</BotonAyuda>
             <h1>Guión de Diálogo</h1>
             <p><b>1.- Esta usted llamando al centro de atención de Qualitas</b></p>
             <p><b>2. ¿{props.nombre}, se encuentra usted bien?</b></p>

@@ -25,7 +25,7 @@ const Left = styled.section`
   flex-direction: column;
 `;
 
-const Middle = styled.section`
+const Right = styled.section`
   width: 65%;
   height: 100%;
   display: flex;
@@ -44,30 +44,6 @@ const Middle = styled.section`
   }
 `;
 
-const Right = styled.section`
-  width: 30%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-`;
-
-const BotonAyuda = styled.button`
-  
-  right: 0;
-  top: 30%;
-  margin: 20px;
-  background: #872a7b;
-  color: white;
-  font-size: 18px;
-  padding: 10px;
-  font-weight: 600;
-  border: none;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  cursor: pointer;
-`;
-
 export const HomePage = () => {
   const [showVentanaAyuda, setShowVentanaAyuda] = useState(false);
 
@@ -79,11 +55,10 @@ export const HomePage = () => {
     <Wrapper>
       {showVentanaAyuda && <VentanaAyuda cancelar={showVentanaHandler} />}
       <Left>
+        <ListaTranscripcion />
         <ConnectStreamsComponent />
-        <BotonAyuda onClick={showVentanaHandler}>Solicitar Ayuda</BotonAyuda>
-        
       </Left>
-      <Middle>
+      <Right>
         <div className="arriba">
           <InfoCliente
             nombre="Juan Perez"
@@ -94,12 +69,8 @@ export const HomePage = () => {
           <Vehiculos />
         </div>
         <div className="abajo">
-          <ClientScript nombre="Juan Perez" />
+          <ClientScript nombre="Juan Perez" funcVentanaAyuda={showVentanaHandler} />
         </div>
-      </Middle>
-      <Right>
-        {/* DANI AQUI PUEDES AGREGAR TU CENTRO DE NOTIFICACIONES */}
-        <ListaTranscripcion />
       </Right>
     </Wrapper>
   );
