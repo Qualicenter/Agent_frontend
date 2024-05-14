@@ -15,9 +15,13 @@ const VentanaAyuda = (props) => {
         console.log(message)
     }
 
+    const handleInnerClick = (e) => {
+        e.stopPropagation();
+    }
+
     return (
-        <div className="ventana-ayuda-completa">
-            <div className="ventana-ayuda">
+        <div className="ventana-ayuda-completa" onClick={cancelar}>
+            <div className="ventana-ayuda" onClick={handleInnerClick}>
                 <h1>Solicitud de ayuda</h1>
                 <label htmlFor="message">Ingrese su mensaje</label>
                 <textarea type="text" id="message" onChange={messageHandler}></textarea>
