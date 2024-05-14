@@ -109,8 +109,9 @@ const ClientScript = ( props ) => {
         setOpenModal(true);
     };
 
-    const borrar_direccion =() => {
+    const borrar_direccion = () => {
         setDireccion("");
+        setBloquear(true);
     }
 
     const mandar_grua = () => {
@@ -132,9 +133,11 @@ const ClientScript = ( props ) => {
                 <input
                 type="text"
                 placeholder="Escribe la dirección del cliente"
+                value={direccion}
                 onChange={Handler}/>
                 <Boton action={guardar_direccion} txt="Guardar dirección"/>
             </Form>
+            <Boton action={borrar_direccion} txt="Borrar dirección"/>
             <p><b>4. (En caso de que necesite asistencia médica) Esta llegando una ambulancia a su ubicación.</b></p>
             <Boton action={mandar_ambulancia} txt="Enviar Ambulancia" disabled={seBloquea}/>
             {openModal && <Modal closeModal={setOpenModal}/>}
