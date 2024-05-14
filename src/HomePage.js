@@ -5,6 +5,7 @@ import ClientScript from "./components/ClientScript";
 import VentanaAyuda from "./components/VentanaAyuda";
 import ConnectStreamsComponent from "./components/ConnectStreamsComponent";
 import { useState } from "react";
+import ListaTranscripcion from "./components/ListaTranscripcion";
 
 const Wrapper = styled.main`
   position: relative;
@@ -15,16 +16,17 @@ const Wrapper = styled.main`
 `;
 
 const Left = styled.section`
-  width: 30%;
+  width: 35%;
   height: 100%;
   background-color: #f0f0f0;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 `;
 
-const Right = styled.section`
-  width: 70%;
+const Middle = styled.section`
+  width: 65%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -41,8 +43,18 @@ const Right = styled.section`
     padding: 10px;
   }
 `;
+
+const Right = styled.section`
+  width: 30%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
+
 const BotonAyuda = styled.button`
-  position: absolute;
+  
   right: 0;
   top: 30%;
   margin: 20px;
@@ -69,8 +81,9 @@ export const HomePage = () => {
       <Left>
         <ConnectStreamsComponent />
         <BotonAyuda onClick={showVentanaHandler}>Solicitar Ayuda</BotonAyuda>
+        
       </Left>
-      <Right>
+      <Middle>
         <div className="arriba">
           <InfoCliente
             nombre="Juan Perez"
@@ -83,6 +96,10 @@ export const HomePage = () => {
         <div className="abajo">
           <ClientScript nombre="Juan Perez" />
         </div>
+      </Middle>
+      <Right>
+        {/* DANI AQUI PUEDES AGREGAR TU CENTRO DE NOTIFICACIONES */}
+        <ListaTranscripcion />
       </Right>
     </Wrapper>
   );
