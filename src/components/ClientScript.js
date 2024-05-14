@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";   
 import Boton from "./Boton";
+import Modal from "./Modal";
 
 const Container = styled.div`
     height: 100%;
@@ -40,6 +41,7 @@ const Form = styled.div`
 
 const ClientScript = ( props ) => {
     const [direccion, setDireccion] = useState("");
+    const [openModal, setOpenModal] = useState(false);
 
     const Handler = (event) => {
         event.preventDefault();
@@ -48,11 +50,19 @@ const ClientScript = ( props ) => {
     };
 
     const mandar_ambulancia = () => {
+        if (direccion === "") return alert("Ingresa una dirección");
         console.log("Ambulancia enviada a:" + direccion);
+        setOpenModal(true);
     };
 
+    const borrar_direccion =() => {
+        setDireccion("");
+    }
+
     const mandar_grua = () => {
+        if (direccion === "") return alert("Ingresa una dirección");
         console.log("Grua enviada a:" + direccion);
+        setOpenModal(true);
     };
 
     return (
@@ -70,9 +80,11 @@ const ClientScript = ( props ) => {
             </Form>
             <p><b>4. (En caso de que necesite asistencia médica) Esta llegando una ambulancia a su ubicación.</b></p>
             <Boton action={mandar_ambulancia} txt="Enviar Ambulancia"/>
+            {openModal && <Modal closeModal={setOpenModal}/>}
             <p><b>5. ¿{props.nombre}, su coche puede moverse o necesita una grúa que lo asista?</b></p>
             <p><b>6. (En caso de que no se pueda mover)  Perfecto, ya va la grúa en camino</b></p>
             <Boton action={mandar_grua} txt="Enviar Grúa"/>
+            {openModal && <Modal closeModal={setOpenModal}/>}
             <p><b>7. Tenga en cuenta un ajustador ya va en camino a su dirección</b></p>
             <p><b>8. Aquí me aparece que tiene registrado/s [Menciona el nombre de el o los vehiculos cubiertos por su poliza]. ¿En cuál vehiculo ocurrio el accidente?</b></p>
             <p><b>9. Muy bien, su poliza va a cubrir los siguientes gastos [Menciona los servicios que estan siendo cubiertos]</b></p>
