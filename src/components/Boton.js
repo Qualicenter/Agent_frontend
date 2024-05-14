@@ -11,11 +11,17 @@ const Button = styled.button`
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     margin-top: 5px;
     cursor: pointer;
+
+    &:disabled {
+        background: grey;
+        cursor: not-allowed;
+    }
 `
 
 const Boton = (props) => {
+    const { action, txt, disabled } = props;
     return (
-        <Button onClick={props.action}>{props.txt}</Button>
+        <Button onClick={action} disabled={disabled}>{txt}</Button>
     );
 }
 
