@@ -1,0 +1,38 @@
+
+.mensaje {
+    background-color: rgb(255, 255, 255);
+    width: 60%;
+    height: fit-content;
+    font-size: 20px;
+    
+}
+
+.mensaje.neutral {
+    background-color: rgb(224, 245, 255);
+
+}
+
+.mensaje.positivo {
+    background-color: rgb(233, 255, 233);
+
+}
+
+.mensaje.negativo {
+    background-color: rgb(255, 215, 215);
+
+}
+
+.lugar {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.lugar.agente {
+    margin-left: 20px;  
+}
+
+.lugar.cliente {
+    margin-left: 5px;  
+}
+
+
