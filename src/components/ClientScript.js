@@ -98,27 +98,25 @@ const ClientScript = ( props ) => {
 
     const guardar_direccion = (e) => {
         e.preventDefault();
+        if (direccion === "") return alert("Ingresa una dirección");
         console.log("URL para la ubicación en Google Maps: " + direccion4Url);
         setBloquear(false);
         mostrarBanner("Ajustador");
     }
 
     const mandar_ambulancia = () => {
-        if (direccion === "") return alert("Ingresa una dirección");
         console.log("Ambulancia enviada a:" + direccion);
         setOpenModal(true);
-        mostrarBanner("Ambulancia");
     };
 
-    const borrar_direccion =() => {
+    const borrar_direccion = () => {
         setDireccion("");
+        setBloquear(true);
     }
 
     const mandar_grua = () => {
-        if (direccion === "") return alert("Ingresa una dirección");
         console.log("Grua enviada a:" + direccion);
         setOpenModal(true);
-        mostrarBanner("Grúa");
     };
 
     return (
@@ -135,9 +133,11 @@ const ClientScript = ( props ) => {
                 <input
                 type="text"
                 placeholder="Escribe la dirección del cliente"
+                value={direccion}
                 onChange={Handler}/>
                 <Boton action={guardar_direccion} txt="Guardar dirección"/>
             </Form>
+            <Boton action={borrar_direccion} txt="Borrar dirección"/>
             <p><b>4. (En caso de que necesite asistencia médica) Esta llegando una ambulancia a su ubicación.</b></p>
             <Boton action={mandar_ambulancia} txt="Enviar Ambulancia" disabled={seBloquea}/>
             {openModal && <Modal closeModal={setOpenModal}/>}

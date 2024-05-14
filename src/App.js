@@ -6,7 +6,7 @@ import ForgotPasswPage from "./ForgotPasswPage";
 function App() {
   const hasAccessToken = () => {
     const token = sessionStorage.getItem("accessToken");
-    return !!token;
+    return true;
   };
 
   return (
