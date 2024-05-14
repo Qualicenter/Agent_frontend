@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";   
+import { useState } from "react";
 import Boton from "./Boton";
 
 const Container = styled.div`
@@ -22,9 +22,11 @@ const Container = styled.div`
         margin-top: 15px;
     }
 `
-const Form = styled.div`
+const Form = styled.form`
     width: 70%;
     padding: 0;
+    display: flex;
+    gap: 20px;
 
     input {
         width: 100%;
@@ -38,25 +40,65 @@ const Form = styled.div`
     }
 `
 
+const Banner = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 500px;
+    height: 75px;
+    background: rgba(128, 128, 128, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    margin: 0 auto;
+    border-radius: 5px;
+    color: white;
+    z-index: 100;
+`;
+
 const ClientScript = ( props ) => {
     const [direccion, setDireccion] = useState("");
+    const [direccion4Url, setDireccion4Url] = useState("");
+    const [seBloquea, setBloquear] = useState(true);
+    const [ajustadorBanner, setAjustadorBanner] = useState(false);
+    const [servicioBanner, setServicioBanner] = useState("");
 
     const Handler = (event) => {
         event.preventDefault();
         setDireccion(event.target.value);
+        setDireccion4Url(`https://www.google.com/maps/dir/?api=1&destination=${event.target.value.replace(/\s+/g, '+')}`);
         console.log(direccion);
     };
 
+    const mostrarBanner = (servicio) => {
+        setServicioBanner(servicio);
+        setAjustadorBanner(true);
+        setTimeout(() => setAjustadorBanner(false), 5000);
+    }
+
+    const guardar_direccion = () => {
+        console.log("URL para la ubicación en Google Maps: " + direccion4Url);
+        setBloquear(false);
+        mostrarBanner("Ajustador");
+    }
+
     const mandar_ambulancia = () => {
-        console.log("Ambulancia enviada a:" + direccion);
+        console.log("Ambulancia enviada a: " + direccion);
+        mostrarBanner("Ambulancia");
     };
 
     const mandar_grua = () => {
-        console.log("Grua enviada a:" + direccion);
+        console.log("Grua enviada a: " + direccion);
+        mostrarBanner("Grúa");
     };
 
     return (
         <Container>
+            {ajustadorBanner && <Banner>
+                    {servicioBanner} en camino a {direccion}
+                </Banner>}
             <h1>Guión de Diálogo</h1>
             <p><b>1.- Esta usted llamando al centro de atención de Qualitas</b></p>
             <p><b>2. ¿{props.nombre}, se encuentra usted bien?</b></p>
@@ -65,14 +107,14 @@ const ClientScript = ( props ) => {
                 <input
                 type="text"
                 placeholder="Escribe la dirección del cliente"
-                onChange={Handler}
-                ></input>
+                onChange={Handler}/>
+                <Boton action={guardar_direccion} txt="Guardar dirección"/>
             </Form>
             <p><b>4. (En caso de que necesite asistencia médica) Esta llegando una ambulancia a su ubicación.</b></p>
-            <Boton action={mandar_ambulancia} txt="Enviar Ambulancia"/>
+            <Boton action={mandar_ambulancia} txt="Enviar Ambulancia" disabled={seBloquea}/>
             <p><b>5. ¿{props.nombre}, su coche puede moverse o necesita una grúa que lo asista?</b></p>
             <p><b>6. (En caso de que no se pueda mover)  Perfecto, ya va la grúa en camino</b></p>
-            <Boton action={mandar_grua} txt="Enviar Grúa"/>
+            <Boton action={mandar_grua} txt="Enviar Grúa" disabled={seBloquea}/>
             <p><b>7. Tenga en cuenta un ajustador ya va en camino a su dirección</b></p>
             <p><b>8. Aquí me aparece que tiene registrado/s [Menciona el nombre de el o los vehiculos cubiertos por su poliza]. ¿En cuál vehiculo ocurrio el accidente?</b></p>
             <p><b>9. Muy bien, su poliza va a cubrir los siguientes gastos [Menciona los servicios que estan siendo cubiertos]</b></p>
