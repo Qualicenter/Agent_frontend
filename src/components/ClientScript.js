@@ -98,16 +98,15 @@ const ClientScript = ( props ) => {
 
     const guardar_direccion = (e) => {
         e.preventDefault();
+        if (direccion === "") return alert("Ingresa una dirección");
         console.log("URL para la ubicación en Google Maps: " + direccion4Url);
         setBloquear(false);
         mostrarBanner("Ajustador");
     }
 
     const mandar_ambulancia = () => {
-        if (direccion === "") return alert("Ingresa una dirección");
         console.log("Ambulancia enviada a:" + direccion);
         setOpenModal(true);
-        mostrarBanner("Ambulancia");
     };
 
     const borrar_direccion =() => {
@@ -115,10 +114,8 @@ const ClientScript = ( props ) => {
     }
 
     const mandar_grua = () => {
-        if (direccion === "") return alert("Ingresa una dirección");
         console.log("Grua enviada a:" + direccion);
         setOpenModal(true);
-        mostrarBanner("Grúa");
     };
 
     return (
