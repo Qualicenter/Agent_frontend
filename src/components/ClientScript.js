@@ -80,7 +80,8 @@ const ClientScript = ( props ) => {
         setTimeout(() => setAjustadorBanner(false), 5000);
     }
 
-    const guardar_direccion = () => {
+    const guardar_direccion = (e) => {
+        e.preventDefault();
         console.log("URL para la ubicación en Google Maps: " + direccion4Url);
         setBloquear(false);
         mostrarBanner("Ajustador");
