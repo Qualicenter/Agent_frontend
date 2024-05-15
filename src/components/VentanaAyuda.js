@@ -19,6 +19,7 @@ const VentanaAyuda = (props) => {
         }).then((response) => {
             if (response.ok) {
                 console.log("Mensaje enviado");
+                alert("Mensaje enviado correctamente");
             }
         }).catch((error) => {
             alert("Error al enviar mensaje");
