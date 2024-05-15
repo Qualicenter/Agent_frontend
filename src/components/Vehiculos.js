@@ -48,25 +48,30 @@ const CardCarro = styled.div`
     }
 `
 
-const Vehiculos = ( props ) => {
+const Vehiculos = ({ clientVehicles }) => {
     return (
         <Container>
             <h1>Vehiculos Registrados</h1>
-            {VehiculosData.map((vehiculo) => (
-                <CardCarro key={vehiculo.id}>
-                    <div>
-                        <h3>Vehículo</h3>
-                        <p>{vehiculo.carro}</p>
-                    </div>
-                    <div className="placas">
-                        <h3>Placas</h3>
-                        <p>{vehiculo.placas}</p>
-                    </div>
-                </CardCarro>
-            ))}
+            
+            {clientVehicles !== null ? (
+                VehiculosData.map((vehiculo) => (
+                    <CardCarro key={vehiculo.id}>
+                        <div>
+                            <h3>Vehículo</h3>
+                            <p>{vehiculo.carro}</p>
+                        </div>
+                        <div className="placas">
+                            <h3>Placas</h3>
+                            <p>{vehiculo.placas}</p>
+                        </div>
+                    </CardCarro>
+                ))
+            ) : (
+                <p>No hay vehículos registrados.</p>
+            )}
         </Container>
     )
-
 }
+
 
 export default Vehiculos;
