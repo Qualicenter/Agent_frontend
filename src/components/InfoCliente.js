@@ -117,10 +117,10 @@ const InfoCliente = ( props ) => {
             <div className="info">
                 <Column>
                     <InfoComponent title="Nombre" content={clientName} />
-                    <InfoComponent title="Poliza" content={clientGender} />
+                    <InfoComponent title="Género" content={clientGender} />
                 </Column>
                 <Column>
-                    <InfoComponent title="Género" content={clientPoliza} />
+                    <InfoComponent title="Póliza" content={clientPoliza} />
                     <InfoComponent title="Tipo de Cliente" content={clientPartyTypeString} />
                 </Column>
             </div>
