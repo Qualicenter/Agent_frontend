@@ -1,9 +1,0 @@
-.ventana-transcripcion {
-    display: flex;
-    width: 400px;
-    height: 45%;
-    border: 2px solid #000;
-    overflow-y:auto;
-    margin: 2px;
-}
-
