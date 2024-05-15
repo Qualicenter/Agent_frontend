@@ -12,7 +12,7 @@ const VentanaAyuda = (props) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                message: message,
+                Message: message.toString(),
                 Sender: "Agente Prueba",
                 Receiver: "supervisor"
             }),
