@@ -5,7 +5,25 @@ const VentanaAyuda = (props) => {
     const cancelar = props.cancelar;
     const [message, setMessage] = useState("");
 
-    const enviarMensaje = () => {
+    const enviarMensaje = async () => {
+        await fetch("http://localhost:8080/messages/createMessage", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                message: message,
+                Sender: "Agente Prueba",
+                Receiver: "supervisor"
+            }),
+        }).then((response) => {
+            if (response.ok) {
+                console.log("Mensaje enviado");
+            }
+        }).catch((error) => {
+            alert("Error al enviar mensaje");
+            console.log("Error al enviar mensaje: " + error);
+        });
         console.log(message)
         cancelar()
     }
