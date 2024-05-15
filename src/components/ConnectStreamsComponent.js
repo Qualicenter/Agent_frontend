@@ -1,31 +1,14 @@
 import { useState, useEffect } from 'react';
 import "./connect-streams-min.js";
-import { CustomerProfiles, SearchProfilesCommand } from '@aws-sdk/client-customer-profiles';
 
-const ConnectStreamsComponent = () => {
-    const [clientContactId, setClientContactId] = useState(null);
-    const [clientPhoneNumber, setClientPhoneNumber] = useState(null);
-    const [clientContactInformation, setClientContactInformation] = useState(null)
+const ConnectStreamsComponent = (props) => {
+    const { setClientPhoneNumber } = props;
+    const { setClientContactId } = props;
+
     useEffect(() => {
         // Initialize Connect Streams when the component mounts
         init();
   }, []);
-
-  // Contact Id updates
-  // When a call is connecting it turns to ContactId of the call, when the call is terminated it is Null again)
-  useEffect(() => {
-    console.log("Contact Event - Contact ID from useEffect:", clientContactId);
-  }, [clientContactId]);
-
-  // Client phone number updates
-  // When a call is connecting it gets the phone number value, it wont change until another call is connecting.
-  useEffect(() => {
-    console.log("Contact Event - Caller's phone number from useEffect:", clientPhoneNumber);
-    if (clientPhoneNumber !== null) {
-      console.log("Contact Event - Attempting to fetch client information")
-      fetchCustomerProfile();
-    }
-  }, [clientPhoneNumber]);
 
   const init = () => {
     const instanceURL = "https://qualicentec.my.connect.aws/ccp-v2/";
@@ -96,46 +79,8 @@ const ConnectStreamsComponent = () => {
 
   const handleContactEnded = (contact) => {
     console.log("Contact Event - Contact ended:", contact);
+    setClientContactId(null);
     // Handle contact ended event
-  };
-
-  const fetchCustomerProfile = async () => {
-    console.log("Contact Event - Attempting to fetch client information TWO")
-    try {
-      const credentials = {
-        accessKeyId: process.env.ACCESS_KEY_ID,
-        secretAccessKey: process.env.SECRET_ACCESS_KEY,
-        region: process.env.REGION
-      };
-      
-      const client = new CustomerProfiles({
-        region: credentials.region,
-        credentials: credentials
-      });
-      
-      const domainName = 'amazon-connect-qualicentec';
-      const phoneNumber = '+525552186232'; // Static phone number for now
-      
-      const params = {
-        DomainName: domainName,
-        KeyName: 'PhoneNumber',
-        Values: [phoneNumber],
-        MaxResults: 1
-      };
-      
-      const command = new SearchProfilesCommand(params);
-      const response = await client.send(command);
-      
-      if (response.Items && response.Items.length > 0) {
-        const contact = response.Items[0];
-        console.log("Contact Event - Successfully fetched contact info:", contact);
-        setClientContactInformation(contact); // Update state with fetched contact information
-      } else {
-        console.log("Contact Event - Customer profile not found.");
-      }
-    } catch (error) {
-      console.error("Contact Event - Error fetching contact information:", error);
-    }
   };
 
   return <div id="container-div" style={{ width: '400px', height: '500px' }}></div>;

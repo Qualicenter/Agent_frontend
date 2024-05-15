@@ -45,8 +45,10 @@ const Right = styled.section`
 `;
 
 export const HomePage = () => {
+  const [clientContactId, setClientContactId] = useState(null);
+  const [clientPhoneNumber, setClientPhoneNumber] = useState(null);
   const [showVentanaAyuda, setShowVentanaAyuda] = useState(false);
-
+  
   const showVentanaHandler = () => {
     setShowVentanaAyuda(!showVentanaAyuda);
   };
@@ -55,16 +57,19 @@ export const HomePage = () => {
     <Wrapper>
       {showVentanaAyuda && <VentanaAyuda cancelar={showVentanaHandler} />}
       <Left>
-        <ListaTranscripcion />
-        <ConnectStreamsComponent />
+        <ListaTranscripcion 
+          contactId={clientContactId}
+        />
+        <ConnectStreamsComponent
+          setClientPhoneNumber={setClientPhoneNumber} 
+          setClientContactId={setClientContactId}
+        />
       </Left>
       <Right>
         <div className="arriba">
           <InfoCliente
-            nombre="Juan Perez"
-            edad="25 años"
-            poliza="Platino Ultra"
-            tiempoEspera="--:--"
+            clientPhoneNumber = {clientPhoneNumber}
+            clientContactId = {clientContactId}
           />
           <Vehiculos />
         </div>

@@ -5,11 +5,11 @@ import Transcripcion from './Transcripcion';
 
 
 
-const ListaTranscripcion = () => {
+const ListaTranscripcion = ({clientContactId}) => {
   // Datos temporales
 
   const [arrTranscripcion, setTranscripcion] = useState([]);
-  const [url] = useState("http://localhost:8080/agente/consultaTranscripcion2");
+  const [url] = useState("http://localhost:8080/agente/consultaTranscripcion2/"+clientContactId);
 
   const descargar = useCallback(async () => {
     try {
