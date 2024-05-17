@@ -64,6 +64,29 @@ const ClientScript = ( props ) => {
     const [seBloquea, setBloquear] = useState(true);
     const [ajustadorBanner, setAjustadorBanner] = useState(false);
     const [servicioBanner, setServicioBanner] = useState("");
+    const [servicioEnv, setServicioEnv] = useState("");
+
+    const enviarSMS = async () => {
+        await fetch("https://localhost:8080/agente/enviarSMS", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                service: servicioEnv,
+                clientName: props.nombre,
+                direccion: direccion
+            }),
+        }).then((response) => {
+            if (response.ok) {
+                console.log("SMS enviado");
+                alert("Mensaje enviado correctamente");
+            }
+        }).catch((error) => {
+            alert("Error al enviar SMS");
+            console.log("Error al enviar SMS: " + error);
+        });
+    }
 
     const Handler = (event) => {
         event.preventDefault();
@@ -78,27 +101,46 @@ const ClientScript = ( props ) => {
         setTimeout(() => setAjustadorBanner(false), 5000);
     }
 
-    const guardar_direccion = () => {
-        console.log("URL para la ubicación en Google Maps: " + direccion4Url);
-        setBloquear(false);
-        mostrarBanner("Ajustador");
+    const guardar_direccion = (e) => {
+        e.preventDefault();
+        if (direccion === "")
+            return alert("Ingresa una dirección");
+        else {
+            console.log("URL para la ubicación en Google Maps: " + direccion4Url);
+            setBloquear(false);
+            mostrarBanner("Ajustador");
+            console.log(props.clientPhoneNumber);
+            setServicioEnv("asegurador");
+            enviarSMS();
+        }
+    }
+
+    const borrar_direccion = () => {
+        setDireccion("");
+        setBloquear(true);
     }
 
     const mandar_ambulancia = () => {
-        console.log("Ambulancia enviada a: " + direccion);
-        mostrarBanner("Ambulancia");
+        console.log("Ambulancia enviada a:" + direccion);
+        setServicioEnv("ambulancia");
+        enviarSMS();
+        setOpenModal(true);
     };
 
     const mandar_grua = () => {
-        console.log("Grua enviada a: " + direccion);
-        mostrarBanner("Grúa");
+        console.log("Grua enviada a:" + direccion);
+        setServicioEnv("grúa");
+        enviarSMS();
+        setOpenModal(true);
     };
 
     return (
         <Container>
             {ajustadorBanner && <Banner>
                     {servicioBanner} en camino a {direccion}
-                </Banner>}
+                </Banner>
+            }
+            <BotonAyuda onClick={props.funcVentanaAyuda}>Solicitar Ayuda</BotonAyuda>
             <h1>Guión de Diálogo</h1>
             <p><b>1.- Esta usted llamando al centro de atención de Qualitas</b></p>
             <p><b>2. ¿{props.nombre}, se encuentra usted bien?</b></p>
