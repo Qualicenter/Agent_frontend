@@ -75,7 +75,8 @@ const ClientScript = ( props ) => {
             body: JSON.stringify({
                 service: servicioEnv,
                 clientName: props.nombre,
-                direccion: direccion
+                direccion: direccion,
+                number: props.clientPhoneNumber
             }),
         }).then((response) => {
             if (response.ok) {
