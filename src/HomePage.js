@@ -78,7 +78,11 @@ export const HomePage = () => {
           />
         </div>
         <div className="abajo">
-          <ClientScript nombre="Juan Perez" funcVentanaAyuda={showVentanaHandler} />
+          <ClientScript
+            nombre="Juan Perez"
+            funcVentanaAyuda={showVentanaHandler}
+            clientPhoneNumber={clientPhoneNumber}
+          />
         </div>
       </Right>
     </Wrapper>

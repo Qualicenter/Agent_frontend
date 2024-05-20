@@ -82,6 +82,30 @@ const ClientScript = ( props ) => {
     const [seBloquea, setBloquear] = useState(true);
     const [ajustadorBanner, setAjustadorBanner] = useState(false);
     const [servicioBanner, setServicioBanner] = useState("");
+    const [servicioEnv, setServicioEnv] = useState("");
+
+    const enviarSMS = async () => {
+        await fetch("https://localhost:8080/agente/enviarSMS", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                service: servicioEnv,
+                clientName: props.nombre,
+                direccion: direccion,
+                number: props.clientPhoneNumber
+            }),
+        }).then((response) => {
+            if (response.ok) {
+                console.log("SMS enviado");
+                alert("Mensaje enviado correctamente");
+            }
+        }).catch((error) => {
+            alert("Error al enviar SMS");
+            console.log("Error al enviar SMS: " + error);
+        });
+    }
 
     const Handler = (event) => {
         event.preventDefault();
@@ -98,14 +122,27 @@ const ClientScript = ( props ) => {
 
     const guardar_direccion = (e) => {
         e.preventDefault();
-        if (direccion === "") return alert("Ingresa una dirección");
-        console.log("URL para la ubicación en Google Maps: " + direccion4Url);
-        setBloquear(false);
-        mostrarBanner("Ajustador");
+        if (direccion === "")
+            return alert("Ingresa una dirección");
+        else {
+            console.log("URL para la ubicación en Google Maps: " + direccion4Url);
+            setBloquear(false);
+            mostrarBanner("Ajustador");
+            console.log(props.clientPhoneNumber);
+            setServicioEnv("asegurador");
+            enviarSMS();
+        }
+    }
+
+    const borrar_direccion = () => {
+        setDireccion("");
+        setBloquear(true);
     }
 
     const mandar_ambulancia = () => {
         console.log("Ambulancia enviada a:" + direccion);
+        setServicioEnv("ambulancia");
+        enviarSMS();
         setOpenModal(true);
     };
 
@@ -116,6 +153,8 @@ const ClientScript = ( props ) => {
 
     const mandar_grua = () => {
         console.log("Grua enviada a:" + direccion);
+        setServicioEnv("grúa");
+        enviarSMS();
         setOpenModal(true);
     };
 
