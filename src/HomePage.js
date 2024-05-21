@@ -49,6 +49,7 @@ export const HomePage = () => {
   const [clientPhoneNumber, setClientPhoneNumber] = useState(null);
   const [showVentanaAyuda, setShowVentanaAyuda] = useState(false);
   const [clientVehicles, setClientVehicles] = useState(null);
+  const [clientQueueDateTime, setClientQueueDateTime] = useState(null);
 
   const showVentanaHandler = () => {
     setShowVentanaAyuda(!showVentanaAyuda);
@@ -64,6 +65,7 @@ export const HomePage = () => {
         <ConnectStreamsComponent
           setClientPhoneNumber={setClientPhoneNumber} 
           setClientContactId={setClientContactId}
+          setClientQueueDateTime={setClientQueueDateTime}
         />
       </Left>
       <Right>
@@ -71,6 +73,7 @@ export const HomePage = () => {
           <InfoCliente
             clientPhoneNumber = {clientPhoneNumber}
             clientContactId = {clientContactId}
+            clientQueueDateTime = {clientQueueDateTime}
             setClientVehicles={setClientVehicles}
           />
           <Vehiculos
