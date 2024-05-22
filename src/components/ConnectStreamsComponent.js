@@ -6,6 +6,7 @@ const ConnectStreamsComponent = (props) => {
     // Importing props from HomePage.js
     const { setClientPhoneNumber } = props;
     const { setClientContactId } = props;
+    const { setClientQueueDateTime } = props;
 
     // use state to keep track of the duration of the call
     const [duration, setDuration] = useState(0);
@@ -54,12 +55,30 @@ const ConnectStreamsComponent = (props) => {
   };
 
   const subscribeToContactEvents = async (contact) => {
-    //Obtain phone number when a new call event exists
-    console.log("Contact Event - Subscription initiated from contact:", contact);
-    const tempNum = contact.getInitialConnection().getEndpoint().phoneNumber;
-    console.log("Contact Event - Caller's phone number from endpoint:", tempNum);
-    setClientPhoneNumber(tempNum);
-    
+    try {
+      // Extract the 'CurrentTime' attribute from the contact's attribute map
+      console.log("Contact Event - ATTRIBUTE MAP", contact.getAttributes());
+      const attributes = contact.getAttributes();
+      if (attributes && attributes.CurrentTime && attributes.CurrentTime.value) {
+          const queueStartTime = attributes.CurrentTime.value;
+          // Use the setClientQueueDateTime function to update the state with the extracted time
+          console.log("Contact Event - Setting queueStartTime from ATTRIBUTE MAP", queueStartTime);
+          setClientQueueDateTime(queueStartTime);
+      }
+    } catch (error) {
+      console.error("Contact Event - Error fetching queue start time:", error);
+    }
+
+    try {
+      //Obtain phone number when a new call event exists
+      console.log("Contact Event - Subscription initiated from contact:", contact);
+      const tempNum = contact.getInitialConnection().getEndpoint().phoneNumber;
+      console.log("Contact Event - Caller's phone number from endpoint:", tempNum);
+      setClientPhoneNumber(tempNum);
+    } catch (error) {
+      console.error("Contact Event - Error fetching phone number:", error);
+    }
+
     // Route to the respective handler
     //contact.onIncoming(handleContactIncoming); 
     //contact.onAccepted(handleContactAccepted);
@@ -73,8 +92,9 @@ const ConnectStreamsComponent = (props) => {
   // Event handlers for each contact event
   const handleContactConnected = (contact) => {
     console.log("Contact Event - Contact Subscription: Incoming contact connected:", contact);
-    //Get contact Id:
+    
     try {
+      //Get contact Id:
       const contactId = contact.getContactId();
       setClientContactId(contactId);
       // Set interval to tick
@@ -94,7 +114,10 @@ const ConnectStreamsComponent = (props) => {
 
   const handleContactEnded = (contact) => {
     console.log("Contact Event - Contact ended:", contact);
+    // Reset client contact ID
     setClientContactId(null);
+    // Reset client queue date time
+    setClientQueueDateTime(null);
     clearInterval(timerID);
     setDuration(0);
     counter = 0;
