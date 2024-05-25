@@ -1,6 +1,10 @@
 import "../styles/transcripcion.css";
+import '../styles/lista-transcripcion.css'
+import {useRef} from "react";
 
 const Transcripcion = ({ transcripcion }) => {
+  
+
   const estiloTranscripcion =
     "mensaje " +
     (transcripcion.sentiment === "POSITIVE"
@@ -12,12 +16,11 @@ const Transcripcion = ({ transcripcion }) => {
       : "");
 
   const lugarTranscripcion =
-    "lugar" +
-    (transcripcion.rol === "AGENT"
+    transcripcion.rol === "AGENT"
       ? "agente"
       : transcripcion.rol === "CUSTOMER"
       ? "cliente"
-      : "");
+      : "";
 
   let emoji;
   switch (transcripcion.sentiment) {
@@ -34,12 +37,19 @@ const Transcripcion = ({ transcripcion }) => {
       emoji = "";
   }
 
+  
+  //dummy.current.scrollIntoView({ behavior: 'smooth' });
+
   return (
-    <div className={estiloTranscripcion}>
+    <div className="ventana-transcripcion">
       <div className={lugarTranscripcion}>
-        {emoji} {transcripcion.descripcion}
+        <div className={estiloTranscripcion}>
+          {emoji} {transcripcion.descripcion}
+        </div>
       </div>
+      
     </div>
+    
   );
 };
 

@@ -86,7 +86,7 @@ const ClientScript = (props) => {
   const [servicioEnv, setServicioEnv] = useState("");
 
   const enviarSMS = async () => {
-    await fetch("https://localhost:8080/agente/enviarSMS", {
+    await fetch("http://localhost:8080/sms/enviarMensaje", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

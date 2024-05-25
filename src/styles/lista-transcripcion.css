@@ -1,9 +1,32 @@
 .ventana-transcripcion {
     display: flex;
+    
     width: 400px;
-    height: 45%;
-    border: 2px solid #000;
-    overflow-y:auto;
+    max-height: 100%;
+    overflow-y: auto;
     margin: 2px;
+    flex-direction: column;
+    align-items: flex-start;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
 }
 
+/* Webkit browsers like Chrome, Safari, and Edge */
+.ventana {
+    height: 45%;
+    overflow-y: auto;
+    position:relative;
+    padding-top:70px;
+}
+
+.ventana::-webkit-scrollbar {
+    display: none;
+}
+
+.ventana-transcripcion .cliente {
+    align-self: flex-start;
+}
+
+.ventana-transcripcion .agente {
+    align-self: flex-end;
+}

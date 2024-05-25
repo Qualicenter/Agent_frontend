@@ -134,7 +134,7 @@ const ConnectStreamsComponent = (props) => {
 
   if (minutes >= 3) {
     color = "red";
-  } else if (minutes == 2 && seconds > 30) {
+  } else if (minutes === 2 && seconds > 30) {
     color = "orange";
   } else {
     color = "green";
