@@ -20,6 +20,7 @@ const ConnectStreamsComponent = (props) => {
     const instanceURL = "https://qualicentec.my.connect.aws/ccp-v2/";
     const containerDiv = document.getElementById("container-div");
     // Initialize Connect Streams when the component mounts
+    /* eslint-disable no-undef */
     connect.core.initCCP(containerDiv, {
       ccpUrl: instanceURL, // REQUIRED
       loginPopup: true, // optional, defaults to true
