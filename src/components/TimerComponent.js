@@ -20,32 +20,39 @@ const TimerComponent = (props) => {
         if (queueStartTime) {
             const calculateElapsedTime = () => {
                 console.log('Contact Event - TimerComponent input attribute:', queueStartTime);
-
-                const utcQueueStartTime = new Date(queueStartTime);
-                console.log('Contact Event - TimerComponent attribute to Date:', utcQueueStartTime);
-                
-                const now = new Date(Date.now());
+    
+                // Transform the queueStartTime string
+                const formattedQueueStartTime = queueStartTime.replace('T', ' ') + ' UTC';
+                console.log('Contact Event - TimerComponent formattedQueueStartTime:', formattedQueueStartTime);
+    
+                // Create Date objects
+                const localQueueStartTime = new Date(formattedQueueStartTime);
+                console.log('Contact Event - TimerComponent formatted to Date:', localQueueStartTime);
+    
+                const now = new Date(new Date (new Date().getTime() - (1000)));
                 console.log('Contact Event - TimerComponent Date now', now);
-
-                const timeDifference = now - utcQueueStartTime;
+    
+                // Calculate the time difference in milliseconds
+                const timeDifference = now - localQueueStartTime;
                 console.log('Contact Event - TimerComponent timeDifference:', timeDifference);
-                
-                const toAdd = { hours: 6, minutes: 60, seconds: 60 }; // XD
-                const hours = Math.floor((now.getTime() - utcQueueStartTime.getTime()) / (1000 * 60 * 60)) + toAdd.hours;
-                const minutes = Math.floor(((now.getTime() - utcQueueStartTime.getTime()) % (1000 * 60 * 60)) / (1000 * 60)) + toAdd.minutes;
-                const seconds = Math.floor(((now.getTime() - utcQueueStartTime.getTime()) % (1000 * 60)) / 1000) + toAdd.seconds;
-
+    
+                // Convert timeDifference to hours, minutes, and seconds
+                const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+    
                 console.log('Contact Event - TimerComponent h/m/s:', hours, minutes, seconds);
                 setElapsedTime(`${hours}h ${minutes}m ${seconds}s`);
             };
-
+    
             const timerInterval = setInterval(calculateElapsedTime, 1000);
-
+    
             return () => clearInterval(timerInterval);
         } else {
             setElapsedTime(''); // Reset elapsedTime if queueStartTime is null
         }
     }, [queueStartTime]);
+    
 
     return (
         <Div>
