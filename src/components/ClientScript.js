@@ -167,72 +167,74 @@ const ClientScript = (props) => {
           {servicioBanner} en camino a {direccion}
         </Banner>
       )}
-      <BotonAyuda onClick={props.funcVentanaAyuda}>Request Help</BotonAyuda>
-      <h1>Dialogue Script</h1>
+      <BotonAyuda onClick={props.funcVentanaAyuda}>Solicitar Ayuda</BotonAyuda>
+      <h1>Guión de Diálogo</h1>
       <p>
-        <b>1.- You are calling the Qualitas customer service center.</b>
+        <b>1.- Esta usted llamando al centro de atención de Qualitas</b>
       </p>
       <p>
-        <b>2. ¿{props.nombre}, are you okay?</b>
+        <b>2. ¿{props.nombre}, se encuentra usted bien?</b>
       </p>
       <p>
-        <b>3. ¿Where are you currently located?</b>
+        <b>3. ¿En qué ubicación se encuentra?</b>
       </p>
       <Form>
         <input
           type="text"
-          placeholder="Write the client's location"
+          placeholder="Escribe la dirección del cliente"
           value={direccion}
           onChange={Handler}
         />
-        <Boton action={guardar_direccion} txt="Save location" />
+        <Boton action={guardar_direccion} txt="Guardar dirección" />
       </Form>
-      <Boton action={borrar_direccion} txt="Delete location" />
+      <Boton action={borrar_direccion} txt="Borrar dirección" />
       <p>
         <b>
-          4. (In case he needs medical assistance) An ambulance is on its way to
-          your location right now.
+          4. (En caso de que necesite asistencia médica) Esta llegando una
+          ambulancia a su ubicación.
         </b>
       </p>
       <Boton
         action={mandar_ambulancia}
-        txt="Send Ambulance"
+        txt="Enviar Ambulancia"
         disabled={seBloquea}
       />
       {openModal && <Modal closeModal={setOpenModal} />}
       <p>
         <b>
-          5. ¿{props.nombre}, can your car move or are you in need of a crane to
-          assist you?
+          5. ¿{props.nombre}, su coche puede moverse o necesita una grúa que lo
+          asista?
         </b>
       </p>
       <p>
-        <b>6. (In case the car can't move) Perfect, the crane is on its way.</b>
+        <b>
+          6. (En caso de que no se pueda mover) Perfecto, ya va la grúa en
+          camino
+        </b>
       </p>
       <Boton action={mandar_grua} txt="Enviar Grúa" disabled={seBloquea} />
       {openModal && <Modal closeModal={setOpenModal} />}
       <p>
+        <b>7. Tenga en cuenta un ajustador ya va en camino a su dirección</b>
+      </p>
+      <p>
         <b>
-          7. Please note that an adjuster is already on the way to your
-          location.
+          8. Aquí me aparece que tiene registrado/s [Menciona el nombre de el o
+          los vehiculos cubiertos por su poliza]. ¿En cuál vehiculo ocurrio el
+          accidente?
         </b>
       </p>
       <p>
         <b>
-          8. Here I can see that you have the following vehicles registered
-          [Mention the name of the vehicle or vehicles that are covered by the
-          client's insurance policy]. ¿With which vehicle did the accident
-          occur?
+          9. Muy bien, su poliza va a cubrir los siguientes gastos [Menciona los
+          servicios que estan siendo cubiertos]
         </b>
       </p>
       <p>
         <b>
-          9. Very well, your policy will cover the following expenses [Mention
-          the services that are being covered]
+          10. ¿Hay algo más que pueda hacer por usted en este momento mientras
+          espera?
         </b>
-      </p>
-      <p>
-        <b>10. Is there something else I could do for you while you wait?</b>
       </p>
     </Container>
   );
