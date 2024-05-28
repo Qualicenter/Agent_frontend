@@ -12,13 +12,14 @@ const VentanaAyuda = (props) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                message: message,
+                Message: message.toString(),
                 Sender: "Agente Prueba",
                 Receiver: "supervisor"
             }),
         }).then((response) => {
             if (response.ok) {
                 console.log("Mensaje enviado");
+                alert("Mensaje enviado correctamente");
             }
         }).catch((error) => {
             alert("Error al enviar mensaje");
