@@ -1,11 +1,32 @@
-.ventana-transcripcion {
-    display: flex;
-    width: 100%;
+
+.mensaje {
+    max-width: 300px;
+    margin-bottom: 12px;
+    line-height: 24px;
+    padding: 10px 20px;
+    border-radius: 25px;
     
-    height: 60%;
-    border: 2px solid #000;
-    overflow-y:auto;
-    margin:50px;
+    color: rgb(63, 63, 63);
+    text-align: center;
+    flex-direction: column;
     
 }
+
+.mensaje.neutral {
+    background-color: rgb(224, 245, 255);
+
+}
+
+.mensaje.positivo {
+    background-color: rgb(233, 255, 233);
+
+}
+
+.mensaje.negativo {
+    background-color: rgb(255, 215, 215);
+
+}
+
+
+
 

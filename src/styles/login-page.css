@@ -1,0 +1,114 @@
+.background {
+    background: rgb(26,207,247);
+    background: linear-gradient(135deg, rgba(26,207,247,1) 23%, rgba(230,63,245,1) 100%);
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 900px;
+    height: 600px;
+    display: flex;
+    flex-direction: row;
+}
+
+.left-login-image {
+    background-image: url(https://img.freepik.com/foto-gratis/colegas-trabajando-juntos-oficina-call-center-cafe_23-2149256071.jpg?t=st=1715559729~exp=1715563329~hmac=75251fd5bb9388147123212957f3530c057c0445e83492bc166cca32d8a0fb32&w=740);
+    background-size: cover;
+    width: 50%;
+    border-radius: 10px;
+}
+
+.right-login {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+}
+
+.right-login form {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.right-login form div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.right-login form button {
+    width: 200px;
+    background-color: transparent;
+    padding: 10px;
+    border-color: black;
+    border-radius: 20px;
+    margin-top: 40px;
+}
+
+.input-container {
+    position: relative;
+    margin-bottom: 2px;
+    margin-left: 5px;
+}
+
+.login-icon {
+    font-size: 24px;
+}
+
+.input-container input:focus ~ label {
+    top: -2px;
+    font-size: 12px;
+}
+
+.input-container .mantain-position {
+    top: -2px;
+    font-size: 12px;
+}
+
+.input-container label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translate(0%, -50%);
+    transition: all 0.3s ease-in-out 0s;
+}
+
+.input-container input {
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.qualitas-logo {
+    width: 300px;
+    position: absolute;
+    top: 15%;
+    transform: translate(0%, -50%);
+}
+
+.right-login h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.right-login p {
+    position: absolute;
+    bottom: 15%;
+    font-size: 15px;
+    text-align: center;
+}
