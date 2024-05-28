@@ -45,7 +45,11 @@ const Right = styled.section`
 `;
 
 export const HomePage = () => {
+  const [clientContactId, setClientContactId] = useState(null);
+  const [clientPhoneNumber, setClientPhoneNumber] = useState(null);
   const [showVentanaAyuda, setShowVentanaAyuda] = useState(false);
+  const [clientVehicles, setClientVehicles] = useState(null);
+  const [clientQueueDateTime, setClientQueueDateTime] = useState(null);
 
   const showVentanaHandler = () => {
     setShowVentanaAyuda(!showVentanaAyuda);
@@ -55,21 +59,33 @@ export const HomePage = () => {
     <Wrapper>
       {showVentanaAyuda && <VentanaAyuda cancelar={showVentanaHandler} />}
       <Left>
-        <ListaTranscripcion />
-        <ConnectStreamsComponent />
+        <ListaTranscripcion 
+          clientContactId={clientContactId}
+        />
+        <ConnectStreamsComponent
+          setClientPhoneNumber={setClientPhoneNumber} 
+          setClientContactId={setClientContactId}
+          setClientQueueDateTime={setClientQueueDateTime}
+        />
       </Left>
       <Right>
         <div className="arriba">
           <InfoCliente
-            nombre="Juan Perez"
-            edad="25 años"
-            poliza="Platino Ultra"
-            tiempoEspera="--:--"
+            clientPhoneNumber = {clientPhoneNumber}
+            clientContactId = {clientContactId}
+            clientQueueDateTime = {clientQueueDateTime}
+            setClientVehicles={setClientVehicles}
           />
-          <Vehiculos />
+          <Vehiculos
+            clientVehicles={clientVehicles}
+          />
         </div>
         <div className="abajo">
-          <ClientScript nombre="Juan Perez" funcVentanaAyuda={showVentanaHandler} />
+          <ClientScript
+            nombre="Juan Perez"
+            funcVentanaAyuda={showVentanaHandler}
+            clientPhoneNumber={clientPhoneNumber}
+          />
         </div>
       </Right>
     </Wrapper>

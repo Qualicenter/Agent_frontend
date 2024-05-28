@@ -1,31 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import "./connect-streams-min.js";
-import { CustomerProfiles, SearchProfilesCommand } from '@aws-sdk/client-customer-profiles';
 
-const ConnectStreamsComponent = () => {
-    const [clientContactId, setClientContactId] = useState(null);
-    const [clientPhoneNumber, setClientPhoneNumber] = useState(null);
-    const [clientContactInformation, setClientContactInformation] = useState(null)
+const ConnectStreamsComponent = (props) => {
+    
+    // Importing props from HomePage.js
+    const { setClientPhoneNumber } = props;
+    const { setClientContactId } = props;
+    const { setClientQueueDateTime } = props;
+
+    // use state to keep track of the duration of the call
+    const [duration, setDuration] = useState(0);
+    const [timerID, setTimerID] = useState(null);
     useEffect(() => {
         // Initialize Connect Streams when the component mounts
         init();
   }, []);
-
-  // Contact Id updates
-  // When a call is connecting it turns to ContactId of the call, when the call is terminated it is Null again)
-  useEffect(() => {
-    console.log("Contact Event - Contact ID from useEffect:", clientContactId);
-  }, [clientContactId]);
-
-  // Client phone number updates
-  // When a call is connecting it gets the phone number value, it wont change until another call is connecting.
-  useEffect(() => {
-    console.log("Contact Event - Caller's phone number from useEffect:", clientPhoneNumber);
-    if (clientPhoneNumber !== null) {
-      console.log("Contact Event - Attempting to fetch client information")
-      fetchCustomerProfile();
-    }
-  }, [clientPhoneNumber]);
 
   const init = () => {
     const instanceURL = "https://qualicentec.my.connect.aws/ccp-v2/";
@@ -66,12 +55,30 @@ const ConnectStreamsComponent = () => {
   };
 
   const subscribeToContactEvents = async (contact) => {
-    //Obtain phone number when a new call event exists
-    console.log("Contact Event - Subscription initiated from contact:", contact);
-    const tempNum = contact.getInitialConnection().getEndpoint().phoneNumber;
-    console.log("Contact Event - Caller's phone number from endpoint:", tempNum);
-    setClientPhoneNumber(tempNum);
-    
+    try {
+      // Extract the 'CurrentTime' attribute from the contact's attribute map
+      console.log("Contact Event - ATTRIBUTE MAP", contact.getAttributes());
+      const attributes = contact.getAttributes();
+      if (attributes && attributes.CurrentTime && attributes.CurrentTime.value) {
+          const queueStartTime = attributes.CurrentTime.value;
+          // Use the setClientQueueDateTime function to update the state with the extracted time
+          console.log("Contact Event - Setting queueStartTime from ATTRIBUTE MAP", queueStartTime);
+          setClientQueueDateTime(queueStartTime);
+      }
+    } catch (error) {
+      console.error("Contact Event - Error fetching queue start time:", error);
+    }
+
+    try {
+      //Obtain phone number when a new call event exists
+      console.log("Contact Event - Subscription initiated from contact:", contact);
+      const tempNum = contact.getInitialConnection().getEndpoint().phoneNumber;
+      console.log("Contact Event - Caller's phone number from endpoint:", tempNum);
+      setClientPhoneNumber(tempNum);
+    } catch (error) {
+      console.error("Contact Event - Error fetching phone number:", error);
+    }
+
     // Route to the respective handler
     //contact.onIncoming(handleContactIncoming); 
     //contact.onAccepted(handleContactAccepted);
@@ -81,13 +88,24 @@ const ConnectStreamsComponent = () => {
     //contact.onDestroyed(handleContactDestroyed);
   };
 
+  let counter = 0;
   // Event handlers for each contact event
   const handleContactConnected = (contact) => {
     console.log("Contact Event - Contact Subscription: Incoming contact connected:", contact);
-    //Get contact Id:
+    
     try {
+      //Get contact Id:
       const contactId = contact.getContactId();
       setClientContactId(contactId);
+      // Set interval to tick
+      const interval = setInterval(() => {
+        if (counter % 2 === 0) {
+          tick();
+        }
+        counter++;
+      }, 1000);
+      // Set timer ID
+      setTimerID(interval);
       console.log("Contact Event - Contact ID:", contactId);
     }  catch (error) {
       console.error("Contact Event - Error fetching contact ID:", error);
@@ -96,49 +114,40 @@ const ConnectStreamsComponent = () => {
 
   const handleContactEnded = (contact) => {
     console.log("Contact Event - Contact ended:", contact);
+    // Reset client contact ID
+    setClientContactId(null);
+    // Reset client queue date time
+    setClientQueueDateTime(null);
+    clearInterval(timerID);
+    setDuration(0);
+    counter = 0;
     // Handle contact ended event
   };
-
-  const fetchCustomerProfile = async () => {
-    console.log("Contact Event - Attempting to fetch client information TWO")
-    try {
-      const credentials = {
-        accessKeyId: process.env.ACCESS_KEY_ID,
-        secretAccessKey: process.env.SECRET_ACCESS_KEY,
-        region: process.env.REGION
-      };
-      
-      const client = new CustomerProfiles({
-        region: credentials.region,
-        credentials: credentials
-      });
-      
-      const domainName = 'amazon-connect-qualicentec';
-      const phoneNumber = '+525552186232'; // Static phone number for now
-      
-      const params = {
-        DomainName: domainName,
-        KeyName: 'PhoneNumber',
-        Values: [phoneNumber],
-        MaxResults: 1
-      };
-      
-      const command = new SearchProfilesCommand(params);
-      const response = await client.send(command);
-      
-      if (response.Items && response.Items.length > 0) {
-        const contact = response.Items[0];
-        console.log("Contact Event - Successfully fetched contact info:", contact);
-        setClientContactInformation(contact); // Update state with fetched contact information
-      } else {
-        console.log("Contact Event - Customer profile not found.");
-      }
-    } catch (error) {
-      console.error("Contact Event - Error fetching contact information:", error);
-    }
+  const tick = () => {
+    setDuration((prevDuration) => prevDuration + 1);
   };
 
-  return <div id="container-div" style={{ width: '400px', height: '500px' }}></div>;
+  const minutes = Math.floor(duration / 60);
+  const seconds = duration % 60;
+
+  let color;
+
+  if (minutes >= 3) {
+    color = "red";
+  } else if (minutes == 2 && seconds > 30) {
+    color = "orange";
+  } else {
+    color = "green";
+  }
+
+  return (
+    <div>
+      <div style={{ color }}>
+        {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+      </div>
+      <div id="container-div" style={{ width: "400px", height: "500px" }}></div>
+    </div>
+  );
 };
 
 export default ConnectStreamsComponent;
