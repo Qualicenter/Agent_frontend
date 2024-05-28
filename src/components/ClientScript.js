@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState} from "react";
 import Boton from "./Boton";
 import Modal from "./Modal";
 
@@ -79,21 +79,18 @@ const BotonAyuda = styled.button`
 const ClientScript = (props) => {
   const [direccion, setDireccion] = useState("");
   const [openModal, setOpenModal] = useState(false);
-  const [direccion4Url, setDireccion4Url] = useState("");
   const [seBloquea, setBloquear] = useState(true);
   const [ajustadorBanner, setAjustadorBanner] = useState(false);
   const [servicioBanner, setServicioBanner] = useState("");
-  const [servicioEnv, setServicioEnv] = useState("");
 
-  const enviarSMS = async () => {
-    await fetch("https://localhost:8080/agente/enviarSMS", {
+  const enviarSMS = async (service) => {
+    await fetch("http://localhost:8080/sms/enviarMensaje", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        service: servicioEnv,
-        clientName: props.nombre,
+        service: service,
         direccion: direccion,
         number: props.clientPhoneNumber,
       }),
@@ -101,7 +98,6 @@ const ClientScript = (props) => {
       .then((response) => {
         if (response.ok) {
           console.log("SMS enviado");
-          alert("Mensaje enviado correctamente");
         }
       })
       .catch((error) => {
@@ -113,12 +109,6 @@ const ClientScript = (props) => {
   const Handler = (event) => {
     event.preventDefault();
     setDireccion(event.target.value);
-    setDireccion4Url(
-      `https://www.google.com/maps/dir/?api=1&destination=${event.target.value.replace(
-        /\s+/g,
-        "+"
-      )}`
-    );
     console.log(direccion);
   };
 
@@ -128,16 +118,14 @@ const ClientScript = (props) => {
     setTimeout(() => setAjustadorBanner(false), 5000);
   };
 
-  const guardar_direccion = (e) => {
+  const guardar_direccion = async (e) => {
     e.preventDefault();
     if (direccion === "") return alert("Ingresa una dirección");
     else {
-      console.log("URL para la ubicación en Google Maps: " + direccion4Url);
       setBloquear(false);
       mostrarBanner("Ajustador");
+      await enviarSMS("asegurador");
       console.log(props.clientPhoneNumber);
-      setServicioEnv("asegurador");
-      enviarSMS();
     }
   };
 
@@ -146,18 +134,18 @@ const ClientScript = (props) => {
     setBloquear(true);
   };
 
-  const mandar_ambulancia = () => {
+  const mandar_ambulancia = async () => {
     console.log("Ambulancia enviada a:" + direccion);
-    setServicioEnv("ambulancia");
-    enviarSMS();
-    setOpenModal(true);
+    await enviarSMS("ambulancia")
+      .then(() => setOpenModal(true))
+      .catch((error) => console.log("Error al enviar SMS: " + error));
   };
 
-  const mandar_grua = () => {
+  const mandar_grua = async () => {
     console.log("Grua enviada a:" + direccion);
-    setServicioEnv("grúa");
-    enviarSMS();
-    setOpenModal(true);
+    await enviarSMS("grúa")
+      .then(() => setOpenModal(true))
+      .catch((error) => console.log("Error al enviar SMS: " + error));
   };
 
   return (
