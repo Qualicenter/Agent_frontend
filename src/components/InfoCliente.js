@@ -29,17 +29,24 @@ const Column = styled.div`
 
 const InfoCliente = ( props ) => {
     // Importing props from HomePage.js
-    const {clientPhoneNumber, clientContactId, setClientVehicles, clientQueueDateTime} = props;
-    // Contact information fetched from the API
-    const [clientContactInformation, setClientContactInformation] = useState(null); // Contact Information
-    // Client information to be displayed on the front end
-    const [clientName, setClientName] = useState(null); // Name
-    const [clientGender, setClientGender] = useState(null); // Gender
-    const [clientBirthDate, setClientBirthDate] = useState(null); // Birth Date (see below for age calculation)
-    const [clientAge, setClientAge] = useState(null); // Age
+    const {
+      clientPhoneNumber,
+      clientContactId,
+      setClientVehicles,
+      clientQueueDateTime, // Queue start date time string
+      clientContactInformation, // Client information to be set with fetch customer API
+      setClientContactInformation
+    } = props;
+
+    // Client information to be displayed on the front end, fetched from the API
+    const [clientName, setClientName] = useState(null);
+    const [clientGender, setClientGender] = useState(null);
+    const [clientBirthDate, setClientBirthDate] = useState(null); // Birth Date (see esction below for age calculation)
+    const [clientAge, setClientAge] = useState(null); // Age to be calculated from the birth date
     const [clientPoliza, setClientPoliza] = useState(null);
-    const [clientPartyTypeString, setClientPartyTypeString] = useState(null); // Party Type
-    const [clientQueueDateTimeToggle, setClientQueueDateTimeToggle] = useState(null); // Queue Time toggle for front end
+    const [clientPartyTypeString, setClientPartyTypeString] = useState(null);
+    const [clientQueueDateTimeToggle, setClientQueueDateTimeToggle] = useState(null); // Queue Time toggle for front end display
+    
     // Calculate the client's age based on the birth date
     useEffect(() => {
       if (clientBirthDate) {
@@ -53,7 +60,7 @@ const InfoCliente = ( props ) => {
               setClientAge(age);
           }
       }
-  }, [clientBirthDate]);
+    }, [clientBirthDate]);
 
     // Contact Id updates (When a call is connecting it turns to ContactId of the call, when the call is terminated it is Null again)
     useEffect(() => {
@@ -61,7 +68,7 @@ const InfoCliente = ( props ) => {
       //If the contact ID is not null, fetch the client information
       if (clientContactId !== null) {
           console.log("Contact Event - Contact ID not null, attempting to fetch client information")
-          fetchCustomerProfile(clientPhoneNumber);
+          fetchCustomerProfile(clientPhoneNumber); // Updates useState clientContactInformation
       } else {
           console.log("Contact Event - Contact ID is null, not fetching client information")
           setClientContactInformation(null);
@@ -73,7 +80,12 @@ const InfoCliente = ( props ) => {
       // If the contact information is not null, update the front end with the information
       if (clientContactInformation !== null) {
         console.log("Contact Event - Contact information from useEffect:", {clientContactInformation});
-        setClientName(clientContactInformation.FirstName);
+
+        if (clientContactInformation.MiddleName) {
+          setClientName(clientContactInformation.FirstName + ' ' + clientContactInformation.MiddleName + ' ' + clientContactInformation.LastName);
+        } else {
+          setClientName(clientContactInformation.FirstName + ' ' + clientContactInformation.LastName);
+        }
         setClientGender(clientContactInformation.Gender);
         setClientBirthDate(clientContactInformation.BirthDate);
         setClientPoliza(clientContactInformation.Attributes.Poliza);
