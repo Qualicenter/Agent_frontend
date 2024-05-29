@@ -38,7 +38,7 @@ const ConnectStreamsComponent = (props) => {
         // optional, defaults below apply if not provided
         allowFramedSoftphone: true, // optional, defaults to false
         disableRingtone: false, // optional, defaults to false
-        ringtoneUrl: "./ringtone.mp3", // optional, defaults to CCP’s default ringtone if a falsy value is set
+        //ringtoneUrl: "./ringtone.mp3", // optional, defaults to CCP’s default ringtone if a falsy value is set
       },
       pageOptions: {
         // optional
