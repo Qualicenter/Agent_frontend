@@ -7,6 +7,7 @@ const ConnectStreamsComponent = (props) => {
     const { setClientPhoneNumber } = props;
     const { setClientContactId } = props;
     const { setClientQueueDateTime } = props;
+    const { setSessionAgentInfo } = props;
 
     // use state to keep track of the duration of the call
     const [duration, setDuration] = useState(0);
@@ -52,7 +53,17 @@ const ConnectStreamsComponent = (props) => {
 
     // Subscribe to contact events when the CCP is initialized
     connect.contact(subscribeToContactEvents);
-    //connect.agent(subscribeToAgentEvents);
+    connect.agent(subscribeToAgentEvents);
+  };
+  
+  const subscribeToAgentEvents = async (agent) => {
+    try {
+      const agentConfiguration = agent.getConfiguration();
+      setSessionAgentInfo(agentConfiguration);
+      console.log("Agent Event - Agent information:", agentConfiguration);
+    } catch (error) {
+      console.error("Agent Event - Error fetching agent information:", error);
+    }
   };
 
   const subscribeToContactEvents = async (contact) => {

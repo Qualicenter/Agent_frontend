@@ -53,7 +53,8 @@ export const HomePage = () => {
   const [clientQueueDateTime, setClientQueueDateTime] = useState(null);
   const [clientContactInformation, setClientContactInformation] = useState(null);
   const [agentContactInformation, setAgentContactInformation] = useState(null);
-  
+  const [sesssionAgentInfo, setSessionAgentInfo] = useState(null);
+
   // Store the call log information to send to backend, updates when call starts and ends
   const [callLogInformation, setCallLogInformation] = useState(null); 
   // When a call starts and all the information is set, send the call log information to the backend
@@ -141,6 +142,7 @@ export const HomePage = () => {
           setClientPhoneNumber={setClientPhoneNumber} 
           setClientContactId={setClientContactId}
           setClientQueueDateTime={setClientQueueDateTime}
+          setSessionAgentInfo={setSessionAgentInfo}
         />
       </Left>
       <Right>
