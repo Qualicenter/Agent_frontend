@@ -7,6 +7,7 @@ import ConnectStreamsComponent from "./components/ConnectStreamsComponent";
 import InfoContactAgent from "./components/InfoContactAgent";
 import { useState, useEffect } from "react";
 import ListaTranscripcion from "./components/ListaTranscripcion";
+import NotificationCenter from "./components/NotificationCenter";
 
 const Wrapper = styled.main`
   position: relative;
@@ -135,6 +136,7 @@ export const HomePage = () => {
     <Wrapper>
       {showVentanaAyuda && <VentanaAyuda cancelar={showVentanaHandler} />}
       <Left>
+        <NotificationCenter Agent={sesssionAgentInfo}/>
         <ListaTranscripcion 
           clientContactId={clientContactId}
         />
