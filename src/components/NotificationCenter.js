@@ -11,7 +11,7 @@ const NotificationCenter = ({Agent}) => {
   const [username, setUsername] = useState(null);
 
   //Variable de fecha actual
-  // const today = new Date();
+  const today = new Date();
 
   //Efecto donde se guarda el dato de username de agente
   useEffect(() => {
@@ -20,11 +20,8 @@ const NotificationCenter = ({Agent}) => {
     }
   }, [Agent]); 
 
-  console.log("Username Porf", username);
-
   //Estado del endpoint donde se descargan los mensajes recibidos
-  const [url] = useState(`http://localhost:8080/messages/getMessages?Sender=Agente Prueba&Receiver=supervisor`); 
-  //# `localhost:8080/messages/getMessages?Sender=Agente%20Prueba&Receiver=supervisor&Date=${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
+  const [url] = useState(`http://localhost:8080/messages/getMessages?Sender=supervisor&Receiver=DanielaSanchez&Date=${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`); 
 
   //Función para cambiar vista del centro de notificaciones
   const handleViewChange = (checked) => {
@@ -44,7 +41,7 @@ const NotificationCenter = ({Agent}) => {
         const { Sender, Message } = item;
         return {
           sender: Sender,
-          content: Message || '', // En caso de que no exista un mensaje (borrar porque ya se puso un filtro)
+          content: Message || '', // En caso de que no exista un mensaje
         };
       });
       setNotifications(arrNuevo)
