@@ -1,3 +1,9 @@
+/**
+ * @author Abigail Donají Chávez Rubio
+ * Component that creates a modal to notify that the sms has been sent
+ * @param {function} closeModal - function to open/close the modal
+*/
+
 import "../styles/modal.css";
 
 const Modal = ({ closeModal }) => {

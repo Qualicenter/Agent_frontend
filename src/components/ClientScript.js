@@ -1,8 +1,17 @@
+/**
+ * @author Abigail Donají Chávez Rubio
+ * @author
+ * @author
+ * Component containing the script for the client's call, the capture of the client's address,
+ * the sending of the ambulance, crane and the adjuster
+*/
+
 import styled from "styled-components";
 import { useState} from "react";
 import Boton from "./Boton";
 import Modal from "./Modal";
 
+/*Sytle characteristics for the components used in the client script*/
 const Container = styled.div`
   height: 100%;
   display: flex;
@@ -77,12 +86,14 @@ const BotonAyuda = styled.button`
 `;
 
 const ClientScript = (props) => {
+  /*State variables */
   const [direccion, setDireccion] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [seBloquea, setBloquear] = useState(true);
   const [ajustadorBanner, setAjustadorBanner] = useState(false);
   const [servicioBanner, setServicioBanner] = useState("");
 
+  /*Function to send the SMS to the client */
   const enviarSMS = async (service) => {
     await fetch("http://localhost:8080/sms/enviarMensaje", {
       method: "POST",
@@ -106,21 +117,24 @@ const ClientScript = (props) => {
       });
   };
 
+  /*Function to handle the address input */
   const Handler = (event) => {
     event.preventDefault();
     setDireccion(event.target.value);
     console.log(direccion);
   };
 
+  /*Function to show the banner with the adjuster service */
   const mostrarBanner = (servicio) => {
     setServicioBanner(servicio);
     setAjustadorBanner(true);
     setTimeout(() => setAjustadorBanner(false), 5000);
   };
 
+  /*Functions to save the address, and send the adjuster sms*/
   const guardar_direccion = async (e) => {
     e.preventDefault();
-    if (direccion === "") return alert("Ingresa una dirección");
+    if (direccion === "") return alert("Enter an address");
     else {
       setBloquear(false);
       mostrarBanner("Ajustador");
@@ -129,11 +143,13 @@ const ClientScript = (props) => {
     }
   };
 
+  /*Function to delete the address */
   const borrar_direccion = () => {
     setDireccion("");
     setBloquear(true);
   };
 
+  /*Functions to send the ambulance sms and show the modal*/
   const mandar_ambulancia = async () => {
     console.log("Ambulancia enviada a:" + direccion);
     await enviarSMS("ambulancia")
@@ -141,6 +157,7 @@ const ClientScript = (props) => {
       .catch((error) => console.log("Error al enviar SMS: " + error));
   };
 
+  /*Function to send the crane sms and show the modal*/
   const mandar_grua = async () => {
     console.log("Grua enviada a:" + direccion);
     await enviarSMS("grúa")
@@ -148,6 +165,7 @@ const ClientScript = (props) => {
       .catch((error) => console.log("Error al enviar SMS: " + error));
   };
 
+  /*Return of the client script layout*/
   return (
     <Container>
       {ajustadorBanner && (
@@ -169,13 +187,13 @@ const ClientScript = (props) => {
       <Form>
         <input
           type="text"
-          placeholder="Escribe la dirección del cliente"
+          placeholder="Write the client's address"
           value={direccion}
           onChange={Handler}
         />
-        <Boton action={guardar_direccion} txt="Guardar dirección" />
+        <Boton action={guardar_direccion} txt="Save address" />
       </Form>
-      <Boton action={borrar_direccion} txt="Borrar dirección" />
+      <Boton action={borrar_direccion} txt="Delete address" />
       <p>
         <b>
           4. (En caso de que necesite asistencia médica) Esta llegando una
@@ -184,7 +202,7 @@ const ClientScript = (props) => {
       </p>
       <Boton
         action={mandar_ambulancia}
-        txt="Enviar Ambulancia"
+        txt="Send Ambulance"
         disabled={seBloquea}
       />
       {openModal && <Modal closeModal={setOpenModal} />}
@@ -200,7 +218,7 @@ const ClientScript = (props) => {
           camino
         </b>
       </p>
-      <Boton action={mandar_grua} txt="Enviar Grúa" disabled={seBloquea} />
+      <Boton action={mandar_grua} txt="Send Crane" disabled={seBloquea} />
       {openModal && <Modal closeModal={setOpenModal} />}
       <p>
         <b>7. Tenga en cuenta un ajustador ya va en camino a su dirección</b>
