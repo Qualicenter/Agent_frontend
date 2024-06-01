@@ -83,6 +83,7 @@ const BotonAyuda = styled.button`
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   cursor: pointer;
   width: 150px;
+  z-index: 0;
 `;
 
 const ClientScript = (props) => {
