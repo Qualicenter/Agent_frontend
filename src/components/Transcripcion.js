@@ -3,24 +3,24 @@ import "../styles/transcripcion.css";
 const Transcripcion = ({ transcripcion }) => {
   const estiloTranscripcion =
     "mensaje " +
-    (transcripcion.sentiment === "POSITIVE"
+    (transcripcion.Transcript.Sentiment === "POSITIVE"
       ? "positivo"
-      : transcripcion.sentiment === "NEGATIVE"
+      : transcripcion.Transcript.Sentiment === "NEGATIVE"
       ? "negativo"
-      : transcripcion.sentiment === "NEUTRAL"
+      : transcripcion.Transcript.Sentiment === "NEUTRAL"
       ? "neutral"
       : "");
 
   const lugarTranscripcion =
     "lugar" +
-    (transcripcion.rol === "AGENT"
+    (transcripcion.Transcript.ParticipantRole === "AGENT"
       ? "agente"
-      : transcripcion.rol === "CUSTOMER"
+      : transcripcion.Transcript.ParticipantRole === "CUSTOMER"
       ? "cliente"
       : "");
 
   let emoji;
-  switch (transcripcion.sentiment) {
+  switch (transcripcion.Transcript.Sentiment) {
     case "POSITIVE":
       emoji = "😊";
       break;
@@ -35,9 +35,9 @@ const Transcripcion = ({ transcripcion }) => {
   }
 
   return (
-    <div className={estiloTranscripcion}>
-      <div className={lugarTranscripcion}>
-        {emoji} {transcripcion.descripcion}
+    <div className={`${estiloTranscripcion} ${lugarTranscripcion}`}>
+      <div>
+        {emoji} {transcripcion.Transcript.Content}
       </div>
     </div>
   );

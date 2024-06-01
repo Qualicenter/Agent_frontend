@@ -60,7 +60,7 @@ export const HomePage = () => {
       {showVentanaAyuda && <VentanaAyuda cancelar={showVentanaHandler} />}
       <Left>
         <ListaTranscripcion 
-          clientContactId={clientContactId}
+          contactId={clientContactId}
         />
         <ConnectStreamsComponent
           setClientPhoneNumber={setClientPhoneNumber} 

@@ -1,4 +1,3 @@
-
 .mensaje {
     background-color: rgb(255, 255, 255);
     width: 60%;
@@ -27,12 +26,11 @@
     margin-bottom: 10px;
 }
 
-.lugar.agente {
-    margin-left: 20px;  
+.lugaragente {
+    margin-left: 150px;  
 }
 
-.lugar.cliente {
+.lugarcliente {
     margin-left: 5px;  
 }
-
 

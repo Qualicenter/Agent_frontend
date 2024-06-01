@@ -4,39 +4,50 @@ import { v4 as uuidv4 } from 'uuid';
 import Transcripcion from './Transcripcion';
 
 
+const ListaTranscripcion = ({ contactId }) => {
 
-const ListaTranscripcion = () => {
   // Datos temporales
-
   const [arrTranscripcion, setTranscripcion] = useState([]);
   const [url] = useState("http://localhost:8080/agente/consultaTranscripcion2");
 
+  
   const descargar = useCallback(async () => {
     try {
-      const response = await fetch(url);
-      const data  = await response.json();
-      const arrNuevo = data[0].Segments.map((segment) => {
-        const transcripcion = {
-          id: uuidv4(),
-          descripcion: segment.Transcript.Content,
-          sentiment: segment.Transcript.Sentiment,
-          rol: segment.Transcript.ParticipantRole,
-        };
-        return transcripcion;
+      if (!contactId) {
+        console.error("No contactId provided");
+        return;
+      }
+
+      console.log(`Fetching data from: ${url}/${contactId}`);
+      const response = await fetch(`${url}/${contactId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+
       });
-     
-      setTranscripcion(arrNuevo);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Data fetched successfully:", data[0].Segments);
+      setTranscripcion(data[0].Segments);
+      console.log("ArrTranscripcion" + data[0])
     } catch (error) {
-      console.error('Error al descargar los datos:', error);
+      console.error("Error fetching data: ", error);
     }
-  }, [url]);
+  }, [url, contactId]);
 
   useEffect(() => {
-    
-    const interval = setInterval(descargar, 3000); // Descargar cada 5 segundos
-    return () => clearInterval(interval); // Limpiar intervalo al desmontar el componente
-  }, [descargar]);
+    const intervalId = setInterval(() => {
+      descargar();
+    }, 3000); // Fetch every 3 seconds
 
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [descargar]);
 
     return(
         <h1 className="ventana-transcripcion">
