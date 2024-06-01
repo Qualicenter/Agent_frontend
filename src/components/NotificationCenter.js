@@ -8,20 +8,25 @@ const NotificationCenter = ({Agent}) => {
   //Estado de la vista del centro de notificaciones
   const [activeView, setActiveView] = useState("Notifications");
   const [mostrarApp, setMostrarApp] = useState(false);
-  const [username, setUsername] = useState(null);
 
   //Variable de fecha actual
   const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const day = today.getDate();
 
   //Efecto donde se guarda el dato de username de agente
   useEffect(() => {
+    const hostUrl = "http://localhost:8080/messages/getMessages";
     if (Agent !== null) {
-      setUsername(Agent.username);
+      setUrl(`${hostUrl}?Sender=supervisor&Receiver=${Agent.username}&Date=${year}-${month}-${day}`);
+    } else {
+      setUrl(`${hostUrl}?Sender=supervisor&Receiver=AgentePrueba&Date=${year}-${month}-${day}`);
     }
-  }, [Agent]); 
+  }, [Agent, year, month, day]); 
 
   //Estado del endpoint donde se descargan los mensajes recibidos
-  const [url] = useState(`http://localhost:8080/messages/getMessages?Sender=supervisor&Receiver=DanielaSanchez&Date=${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`); 
+  const [url, setUrl] = useState(""); 
 
   //Función para cambiar vista del centro de notificaciones
   const handleViewChange = (checked) => {
@@ -32,20 +37,27 @@ const NotificationCenter = ({Agent}) => {
   const [notifications, setNotifications] = useState([]);
 
   const descargar = useCallback(async () => {
-  
-    const response = await fetch(url);
-    const data = await response.json();
-    if (data[0].Items && Array.isArray(data[0].Items)) {
-      const items = data[0].Items;
-      const arrNuevo = items.filter((item) => item.Message !== undefined).map((item) => {
-        const { Sender, Message } = item;
-        return {
-          sender: Sender,
-          content: Message || '', // En caso de que no exista un mensaje
-        };
-      });
-      setNotifications(arrNuevo)
-    } 
+    try {
+      if (url === "") {
+        return;
+      }
+      console.log(`Fetching data from: ${url}`);
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data[0].Items && Array.isArray(data[0].Items)) {
+        const items = data[0].Items;
+        const arrNuevo = items.filter((item) => item.Message !== undefined).map((item) => {
+          const { Sender, Message } = item;
+          return {
+            sender: Sender,
+            content: Message || '', // En caso de que no exista un mensaje
+          };
+        });
+        setNotifications(arrNuevo)
+      }
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
   }, [url]);
 
   // Efecto de descarga de mensajes de la base de datos
