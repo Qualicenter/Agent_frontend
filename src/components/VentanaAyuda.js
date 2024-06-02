@@ -3,6 +3,8 @@ import "../styles/ventana-ayuda.css";
 
 const VentanaAyuda = (props) => {
     const cancelar = props.cancelar;
+    const agentInfo = props.agentInfo;
+    const clientInfo = props.clientInfo;
     const [message, setMessage] = useState("");
 
     const enviarMensaje = async () => {
@@ -13,8 +15,13 @@ const VentanaAyuda = (props) => {
             },
             body: JSON.stringify({
                 Message: message.toString(),
-                Sender: "Agente Prueba",
-                Receiver: "supervisor"
+                Sender: agentInfo? agentInfo.username : "AgentePrueba",
+                Receiver: "supervisor",
+                nombreCliente: clientInfo? clientInfo.FirstName + ' ' + clientInfo.LastName : "ClientePrueba",
+                generoCliente: clientInfo? clientInfo.Gender : "No especificado",
+                fechaNacimientoCliente: clientInfo? new Date(clientInfo.BirthDate) : new Date(),
+                polizaCliente: clientInfo? clientInfo.Attributes.Poliza : "No especificado",
+                tipoCliente: clientInfo? clientInfo.PartyTypeString : "No especificado",
             }),
         }).then((response) => {
             if (response.ok) {

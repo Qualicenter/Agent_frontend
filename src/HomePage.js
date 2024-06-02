@@ -166,7 +166,13 @@ export const HomePage = () => {
   // Return of the main page layout
   return (
     <Wrapper>
-      {showVentanaAyuda && <VentanaAyuda cancelar={showVentanaHandler} />}
+      {showVentanaAyuda && (
+        <VentanaAyuda
+          cancelar={showVentanaHandler}
+          agentInfo={sesssionAgentInfo}
+          clientInfo={clientContactInformation}
+        />
+      )}
       <Left>
         <NotificationCenter Agent={sesssionAgentInfo}/>
         <ListaTranscripcion 
