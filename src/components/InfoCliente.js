@@ -166,7 +166,10 @@ const InfoCliente = ( props ) => {
                 <Column>
                     <InfoComponent title="Póliza" content={clientPoliza} />
                     <InfoComponent title="Tipo de Cliente" content={clientPartyTypeString} />
-                    <TimerComponent queueStartTime={clientQueueDateTimeToggle} />
+                    <TimerComponent 
+                      contactId ={clientContactId}
+                      queueStartTime={clientQueueDateTimeToggle} 
+                    />
                 </Column>
             </div>
         </Container>
