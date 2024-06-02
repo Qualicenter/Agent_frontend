@@ -7,6 +7,7 @@ import ConnectStreamsComponent from "./components/ConnectStreamsComponent";
 import InfoContactAgent from "./components/InfoContactAgent";
 import { useState, useEffect } from "react";
 import ListaTranscripcion from "./components/ListaTranscripcion";
+import QueueUpdater from "./components/QueueUpdater";
 
 const Wrapper = styled.main`
   position: relative;
@@ -186,6 +187,9 @@ export const HomePage = () => {
             clientContactId = {clientContactId}
             clientQueueDateTime = {clientQueueDateTime} // Queue start date time
             setClientVehicles={setClientVehicles}
+          />
+          <QueueUpdater // Subcomponent that updates the queue status in the DynamoDB
+            customerContactId={clientContactId}
           />
           <InfoContactAgent  // Subcomponent that fetches the agent contact information from the API (Agent info)
             clientContactId={clientContactId} 
