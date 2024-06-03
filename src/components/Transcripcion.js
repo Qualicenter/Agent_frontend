@@ -35,9 +35,11 @@ const Transcripcion = ({ transcripcion }) => {
   }
 
   return (
-    <div className={`${estiloTranscripcion} ${lugarTranscripcion}`}>
-      <div>
-        {emoji} {transcripcion.Transcript.Content}
+    <div className="ventana-transcripcion">
+      <div className={`${estiloTranscripcion} ${lugarTranscripcion}`}>
+        <div>
+          {emoji} {transcripcion.Transcript.Content}
+        </div>
       </div>
     </div>
   );
