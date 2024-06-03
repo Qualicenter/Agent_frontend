@@ -7,7 +7,7 @@
 */
 
 import styled from "styled-components";
-import { useState} from "react";
+import { useState, useEffect} from "react";
 import Boton from "./Boton";
 import Modal from "./Modal";
 
@@ -85,13 +85,32 @@ const BotonAyuda = styled.button`
   width: 150px;
 `;
 
+const BotonEnviar= styled.button`
+  position: absolute;
+  right: 0;
+  top: 90%;
+  margin: 20px;
+  background: #872a7b;
+  color: white;
+  font-size: 18px;
+  padding: 10px;
+  font-weight: 600;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  cursor: pointer;
+  width: 100px;
+`;
+
 const ClientScript = (props) => {
   /*State variables */
   const [direccion, setDireccion] = useState("");
+  const [direccionGuardada, setDireccionGuardada] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [seBloquea, setBloquear] = useState(true);
   const [ajustadorBanner, setAjustadorBanner] = useState(false);
   const [servicioBanner, setServicioBanner] = useState("");
+  const [ambulancia, setAmbulancia] = useState(false);
+  const [grua, setGrua] = useState(false);
 
   /*Function to send the SMS to the client */
   const enviarSMS = async (service) => {
@@ -137,6 +156,7 @@ const ClientScript = (props) => {
     if (direccion === "") return alert("Enter an address");
     else {
       setBloquear(false);
+      setDireccionGuardada(true);
       mostrarBanner("Ajustador");
       await enviarSMS("asegurador");
       console.log(props.clientPhoneNumber);
@@ -152,6 +172,7 @@ const ClientScript = (props) => {
   /*Functions to send the ambulance sms and show the modal*/
   const mandar_ambulancia = async () => {
     console.log("Ambulancia enviada a:" + direccion);
+    setAmbulancia(true);
     await enviarSMS("ambulancia")
       .then(() => setOpenModal(true))
       .catch((error) => console.log("Error al enviar SMS: " + error));
@@ -160,10 +181,41 @@ const ClientScript = (props) => {
   /*Function to send the crane sms and show the modal*/
   const mandar_grua = async () => {
     console.log("Grua enviada a:" + direccion);
+    setGrua(true);
     await enviarSMS("grúa")
       .then(() => setOpenModal(true))
       .catch((error) => console.log("Error al enviar SMS: " + error));
   };
+
+  const enviarSiniestro = async () => {
+    await fetch("http://localhost:8080/cliente/addSiniestro", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        numPoliza: props.poliza,
+        direccion: direccion,
+        ambulancia: ambulancia,
+        grua: grua,
+      }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log("Siniestro enviado");
+        }
+      })
+      .catch((error) => {
+        alert("Error al enviar siniestro");
+        console.log("Error al enviar siniestro: " + error);
+      });
+  };
+
+  useEffect(() => {
+    if (props.poliza) {
+        console.log("Poliza: ", props.poliza);
+    }
+  })
 
   /*Return of the client script layout*/
   return (
@@ -242,6 +294,7 @@ const ClientScript = (props) => {
           espera?
         </b>
       </p>
+      <BotonEnviar onClick={enviarSiniestro} disabled={!direccionGuardada}>Enviar</BotonEnviar>
     </Container>
   );
 };
