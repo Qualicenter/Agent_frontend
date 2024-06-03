@@ -117,12 +117,44 @@ export const HomePage = () => {
     updateCallLogAsync();
   }, [callLogInformation, clientContactId]);
   
-  const insertNewCallLog = (callLogInformation) => {
-    console.log("Contact Event - ATTEMPTING DATABASE NEW REGISTRY OF: ", callLogInformation);
+  const insertNewCallLog = async (callLogInformation) => {
+    try {
+        const response = await fetch("http://localhost:8080/callsdata/createCallData", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(callLogInformation),
+        });
+        
+        if (response.ok) {
+            console.log("Contact Event - Call data created successfully");
+        } else {
+            throw new Error('Error creating call data');
+        }
+    } catch (error) {
+        console.error("Error creating call data:", error);
+    }
   };
 
-  const updateCallLog = (id, ended, finalDuration) => {
-    console.log("Contact Event - ATTEMPTING DATABASE UPDATING: ", id, ended, finalDuration);
+  const updateCallLog = async (id, ended, finalDuration) => {
+    try {
+        const response = await fetch("http://localhost:8080/callsdata//updateCallData", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ clientContactId: id, finalDuration: finalDuration }),
+        });
+        
+        if (response.ok) {
+            console.log("Contact Event - Call data updated successfully");
+        } else {
+            throw new Error('Error updating call data');
+        }
+    } catch (error) {
+        console.error("Error updating call data:", error);
+    }
   };
 
   // Function to show the help window
