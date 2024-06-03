@@ -1,4 +1,3 @@
-
 .mensaje {
     max-width: 300px;
     margin-bottom: 12px;
@@ -27,6 +26,16 @@
 
 }
 
+.lugar {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 
+.lugaragente {
+    margin-left: 150px;  
+}
 
+.lugarcliente {
+    margin-left: 5px;  
+}
 

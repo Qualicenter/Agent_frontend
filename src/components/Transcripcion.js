@@ -7,23 +7,24 @@ const Transcripcion = ({ transcripcion }) => {
 
   const estiloTranscripcion =
     "mensaje " +
-    (transcripcion.sentiment === "POSITIVE"
+    (transcripcion.Transcript.Sentiment === "POSITIVE"
       ? "positivo"
-      : transcripcion.sentiment === "NEGATIVE"
+      : transcripcion.Transcript.Sentiment === "NEGATIVE"
       ? "negativo"
-      : transcripcion.sentiment === "NEUTRAL"
+      : transcripcion.Transcript.Sentiment === "NEUTRAL"
       ? "neutral"
       : "");
 
   const lugarTranscripcion =
-    transcripcion.rol === "AGENT"
+    "lugar" +
+    (transcripcion.Transcript.ParticipantRole === "AGENT"
       ? "agente"
-      : transcripcion.rol === "CUSTOMER"
+      : transcripcion.Transcript.ParticipantRole === "CUSTOMER"
       ? "cliente"
       : "";
 
   let emoji;
-  switch (transcripcion.sentiment) {
+  switch (transcripcion.Transcript.Sentiment) {
     case "POSITIVE":
       emoji = "😊";
       break;
@@ -41,11 +42,9 @@ const Transcripcion = ({ transcripcion }) => {
   //dummy.current.scrollIntoView({ behavior: 'smooth' });
 
   return (
-    <div className="ventana-transcripcion">
-      <div className={lugarTranscripcion}>
-        <div className={estiloTranscripcion}>
-          {emoji} {transcripcion.descripcion}
-        </div>
+    <div className={`${estiloTranscripcion} ${lugarTranscripcion}`}>
+      <div>
+        {emoji} {transcripcion.Transcript.Content}
       </div>
       
     </div>

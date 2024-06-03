@@ -1,0 +1,78 @@
+/* NotificationCenter.css */
+
+.notification-center {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  z-index: 3;
+  padding: 20px;
+  border-radius: 5px;
+  width: 660px;
+  height: 500px;
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  overflow: auto;
+  color: black;
+  text-align: center;
+}
+
+
+.notification-center h2 {
+  color: #333;
+  text-align: center;
+}
+
+.notification-center ul {
+  list-style: none;
+  padding: 0;
+  color: black;
+}
+
+.notification-center li {
+  background-color: #fff;
+  border: 1px solid #eee;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  color: black;
+}
+
+.notification-center strong {
+  color: #2a9d8f;
+}
+
+
+.ventana-noticenter-completa {
+  z-index: 2;
+  width: 1200px;
+  height: 834px;
+  background-color: rgba(56, 56, 56, 0.548);
+  transform: translate(-85%, -38%);
+  position: absolute;
+}
+
+.my-button {
+  padding: 10px 20px;
+  margin: 15px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.my-button:hover {
+  background-color: #45a049;
+}
+
+.my-button:active {
+  background-color: #3e8e41;
+}
+
+.notifCenter-center {
+  position: absolute;
+  top: 37%;
+  right: 1%;
+  z-index: 0; 
+}
