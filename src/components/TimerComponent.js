@@ -10,11 +10,18 @@ const Div = styled.div`
         font-size: 18px;
         margin-top: 10px;
     }
+
+    p {
+        font-size: 16px;
+        margin-top: 5px;
+        color: ${props => props.color};
+    }
 `
 
 const TimerComponent = (props) => {
     const { queueStartTime } = props;
     const [elapsedTime, setElapsedTime] = useState('');
+    const [color, setColor] = useState('green');
 
     useEffect(() => {
         if (queueStartTime) {
@@ -43,6 +50,17 @@ const TimerComponent = (props) => {
     
                 console.log('TimerComponent - h/m/s:', hours, minutes, seconds);
                 setElapsedTime(`${hours}h ${minutes}m ${seconds}s`);
+
+                // Determine the color based on the elapsed time
+                const totalMinutes = hours * 60 + minutes + seconds / 60;
+                
+                if (totalMinutes <= 2.5) {
+                    setColor('green');
+                } else if (totalMinutes <= 3) {
+                    setColor('orange');
+                } else {
+                    setColor('red');
+                }
             };
     
             const timerInterval = setInterval(calculateElapsedTime, 1000);
@@ -55,8 +73,8 @@ const TimerComponent = (props) => {
     
 
     return (
-        <Div>
-            <h2>Queue Time</h2>
+        <Div color={color}>
+            <h2>Total Call Duration</h2>
             {queueStartTime && <p>{elapsedTime}</p>}
         </Div>
     )
