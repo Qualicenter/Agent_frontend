@@ -13,11 +13,11 @@ const Div = styled.div`
 `
 
 const TimerComponent = (props) => {
-    const { queueStartTime } = props;
+    const { queueStartTime, contactId } = props;
     const [elapsedTime, setElapsedTime] = useState('');
 
     useEffect(() => {
-        if (queueStartTime) {
+        if (queueStartTime && contactId) {
             const calculateElapsedTime = () => {
                 console.log('Contact Event - TimerComponent input attribute:', queueStartTime);
     
@@ -51,7 +51,7 @@ const TimerComponent = (props) => {
         } else {
             setElapsedTime(''); // Reset elapsedTime if queueStartTime is null
         }
-    }, [queueStartTime]);
+    }, [queueStartTime, contactId]);
     
 
     return (
