@@ -1,12 +1,12 @@
 import '../styles/lista-transcripcion.css'
-import {useCallback, useEffect, useState } from "react";
-import { v4 as uuidv4 } from 'uuid';
+import {useCallback, useEffect, useState, useRef} from "react";
 import Transcripcion from './Transcripcion';
 
 
 const ListaTranscripcion = ({ contactId }) => {
 
   // Datos temporales
+  const referencia = useRef();
   const [arrTranscripcion, setTranscripcion] = useState([]);
   const [url] = useState("http://localhost:8080/agente/consultaTranscripcion2");
 
@@ -49,23 +49,43 @@ const ListaTranscripcion = ({ contactId }) => {
     return () => clearInterval(intervalId);
   }, [descargar]);
 
+  const scrollToView = () => {
+    referencia.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
     return(
-        <h1 className="ventana-transcripcion">
-          <span style={{fontWeight: 'bold', color: 'green'}}>
-            {arrTranscripcion.length !== 0 ? (
-              arrTranscripcion.map((transcripcion) => {
-                return (
-                  <Transcripcion
-                  transcripcion={transcripcion}
-                  key={transcripcion.id}
-                  />
-                );
-              })
-            ) : (
-              <h1>...</h1>
-            )}
-          </span>
-        </h1>
+      <div className="ventana">
+          {arrTranscripcion.length > 0 && (
+            <div onClick={scrollToView} style={{
+              position: 'absolute',
+              top: '10px',
+              right: '10px',
+              backgroundColor: 'orange',
+              borderRadius: '50%',
+              width: '50px',
+              height: '50px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              cursor: 'pointer'
+            }}>Scroll</div>
+          )}
+          {arrTranscripcion.length !== 0 ? (
+            arrTranscripcion.map((transcripcion) => {
+              return (
+                <Transcripcion
+                transcripcion={transcripcion}
+                key={transcripcion.id}
+            
+                />
+                
+              );
+            })
+          ) : (
+            <h1>...</h1>
+          )}
+          <div ref={referencia}></div>
+      </div>
   )
   
 }
