@@ -172,7 +172,6 @@ const ClientScript = (props) => {
   /*Functions to send the ambulance sms and show the modal*/
   const mandar_ambulancia = async () => {
     console.log("Ambulancia enviada a:" + direccion);
-    setAmbulancia(true);
     await enviarSMS("ambulancia")
       .then(() => setOpenModal(true))
       .catch((error) => console.log("Error al enviar SMS: " + error));
@@ -181,7 +180,6 @@ const ClientScript = (props) => {
   /*Function to send the crane sms and show the modal*/
   const mandar_grua = async () => {
     console.log("Grua enviada a:" + direccion);
-    setGrua(true);
     await enviarSMS("grúa")
       .then(() => setOpenModal(true))
       .catch((error) => console.log("Error al enviar SMS: " + error));
@@ -203,6 +201,7 @@ const ClientScript = (props) => {
       .then((response) => {
         if (response.ok) {
           console.log("Siniestro enviado");
+          alert("Siniestro enviado");
         }
       })
       .catch((error) => {
@@ -253,7 +252,7 @@ const ClientScript = (props) => {
         </b>
       </p>
       <Boton
-        action={mandar_ambulancia}
+        action={() => {mandar_ambulancia(); setAmbulancia(true)}}
         txt="Send Ambulance"
         disabled={seBloquea}
       />
@@ -270,7 +269,7 @@ const ClientScript = (props) => {
           camino
         </b>
       </p>
-      <Boton action={mandar_grua} txt="Send Crane" disabled={seBloquea} />
+      <Boton action={() => {mandar_grua(); setGrua(true)}} txt="Send Crane" disabled={seBloquea} />
       {openModal && <Modal closeModal={setOpenModal} />}
       <p>
         <b>7. Tenga en cuenta un ajustador ya va en camino a su dirección</b>
