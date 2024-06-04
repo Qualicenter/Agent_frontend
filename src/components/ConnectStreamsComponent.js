@@ -9,9 +9,6 @@ const ConnectStreamsComponent = (props) => {
     const { setClientQueueDateTime } = props;
     const { setSessionAgentInfo } = props;
 
-    // use state to keep track of the duration of the call
-    const [duration, setDuration] = useState(0);
-    const [timerID, setTimerID] = useState(null);
     useEffect(() => {
         // Initialize Connect Streams when the component mounts
         init();
@@ -109,15 +106,6 @@ const ConnectStreamsComponent = (props) => {
       //Get contact Id:
       const contactId = contact.getContactId();
       setClientContactId(contactId);
-      // Set interval to tick
-      const interval = setInterval(() => {
-        if (counter % 2 === 0) {
-          tick();
-        }
-        counter++;
-      }, 1000);
-      // Set timer ID
-      setTimerID(interval);
       console.log("Contact Event - Contact ID:", contactId);
     }  catch (error) {
       console.error("Contact Event - Error fetching contact ID:", error);
@@ -130,33 +118,12 @@ const ConnectStreamsComponent = (props) => {
     setClientContactId(null);
     // Reset client queue date time
     setClientQueueDateTime(null);
-    clearInterval(timerID);
-    setDuration(0);
     counter = 0;
     // Handle contact ended event
   };
-  const tick = () => {
-    setDuration((prevDuration) => prevDuration + 1);
-  };
-
-  const minutes = Math.floor(duration / 60);
-  const seconds = duration % 60;
-
-  let color;
-
-  if (minutes >= 3) {
-    color = "red";
-  } else if (minutes == 2 && seconds > 30) {
-    color = "orange";
-  } else {
-    color = "green";
-  }
 
   return (
     <div>
-      <div style={{ color }}>
-        {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-      </div>
       <div id="container-div" style={{ width: "400px", height: "500px" }}></div>
     </div>
   );

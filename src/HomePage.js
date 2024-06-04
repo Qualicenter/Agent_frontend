@@ -7,6 +7,7 @@ import ConnectStreamsComponent from "./components/ConnectStreamsComponent";
 import InfoContactAgent from "./components/InfoContactAgent";
 import { useState, useEffect } from "react";
 import ListaTranscripcion from "./components/ListaTranscripcion";
+import NotificationCenter from "./components/NotificationCenter";
 import QueueUpdater from "./components/QueueUpdater";
 
 const Wrapper = styled.main`
@@ -166,10 +167,17 @@ export const HomePage = () => {
   // Return of the main page layout
   return (
     <Wrapper>
-      {showVentanaAyuda && <VentanaAyuda cancelar={showVentanaHandler} />}
+      {showVentanaAyuda && (
+        <VentanaAyuda
+          cancelar={showVentanaHandler}
+          agentInfo={sesssionAgentInfo}
+          clientInfo={clientContactInformation}
+        />
+      )}
       <Left>
+        <NotificationCenter Agent={sesssionAgentInfo}/>
         <ListaTranscripcion 
-          clientContactId={clientContactId}
+          contactId={clientContactId}
         />
         <ConnectStreamsComponent
           setClientPhoneNumber={setClientPhoneNumber} 
