@@ -141,7 +141,7 @@ export const HomePage = () => {
 
   const updateCallLog = async (id, ended, finalDuration) => {
     try {
-        const response = await fetch("http://localhost:8080/callsdata//updateCallData", {
+        const response = await fetch("http://localhost:8080/callsdata/updateCallData", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
