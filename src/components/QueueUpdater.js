@@ -1,49 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import AWS from 'aws-sdk';
+import { useEffect } from 'react';
 
+
+// Component to update the remove a call from the queue database when a call starts
 const QueueUpdater = ({ customerContactId }) => {
-  const [contactId, setContactId] = useState(null);
 
   useEffect(() => {
-    if (contactId !== null) {
-      // Initialize AWS SDK with your credentials and region
-      AWS.config.update({
-        accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
-        secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY,
-        region: 'us-east-1'
-      });
-      
-      // Create DynamoDB service object
-      const dynamoDB = new AWS.DynamoDB.DocumentClient();
-
-      // Define the params for DynamoDB update
-      const params = {
-        TableName: 'CallsInQueueQualicenter',
-        Key: {
-          'ContactID': contactId
-        },
-        UpdateExpression: 'SET InQueue = :val',
-        ExpressionAttributeValues: {
-          ':val': false
-        }
-      };
-
-      // Update DynamoDB item
-      dynamoDB.update(params, (err, data) => {
-        if (err) {
-          console.error("Queue Update: Unable to update item. Error:", JSON.stringify(err, null, 2));
+    const updateQueue = async () => {
+      // Send a PUT request to the server to update the queue data of the contact id
+      try {
+        const response = await fetch('http://localhost:8080/queuedata/updateQueueData', {
+          method: 'PUT',
+          headers: {
+             'Content-Type': 'application/json' 
+          },
+          body: JSON.stringify({ ContactID: customerContactId }),
+        });
+        
+        if (response.ok) {
+          console.log("Contact Event - Queue data updated successfully");
         } else {
-          console.log("Contact Event - QueueUpdater update succeeded:", JSON.stringify(data, null, 2));
+          console.error("Failed to update queue data");
         }
-      });
-    }
-  }, [contactId]);
+      } catch (err) {
+        console.error("Error updating queue data:", err);
+      }
+    };
 
-  // Set the contactId when the component receives a new customerContactId prop
-  useEffect(() => {
-    setContactId(customerContactId);
+    if (customerContactId !== null) {
+      console.log("Contact Event - Updating queue data for contact id:", customerContactId);
+      updateQueue();
+    }
   }, [customerContactId]);
 
+  // Return null to avoid rendering anything visually
   return null;
 };
 
