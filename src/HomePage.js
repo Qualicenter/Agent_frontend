@@ -8,6 +8,7 @@ import InfoContactAgent from "./components/InfoContactAgent";
 import { useState, useEffect } from "react";
 import ListaTranscripcion from "./components/ListaTranscripcion";
 import NotificationCenter from "./components/NotificationCenter";
+import QueueUpdater from "./components/QueueUpdater";
 
 const Wrapper = styled.main`
   position: relative;
@@ -55,6 +56,7 @@ export const HomePage = () => {
   const [clientContactInformation, setClientContactInformation] = useState(null);
   const [agentContactInformation, setAgentContactInformation] = useState(null);
   const [sesssionAgentInfo, setSessionAgentInfo] = useState(null);
+  const [selectedPoliza, setSelectedPoliza] = useState(null); 
 
   // Store the call log information to send to backend, updates when call starts and ends
   const [callLogInformation, setCallLogInformation] = useState(null); 
@@ -162,15 +164,25 @@ export const HomePage = () => {
     setShowVentanaAyuda(!showVentanaAyuda);
   };
 
+  const handlePolizaSelect = (poliza) => {
+    setSelectedPoliza(poliza); 
+  };
+
 
   // Return of the main page layout
   return (
     <Wrapper>
-      {showVentanaAyuda && <VentanaAyuda cancelar={showVentanaHandler} />}
+      {showVentanaAyuda && (
+        <VentanaAyuda
+          cancelar={showVentanaHandler}
+          agentInfo={sesssionAgentInfo}
+          clientInfo={clientContactInformation}
+        />
+      )}
       <Left>
         <NotificationCenter Agent={sesssionAgentInfo}/>
         <ListaTranscripcion 
-          clientContactId={clientContactId}
+          contactId={clientContactId}
         />
         <ConnectStreamsComponent
           setClientPhoneNumber={setClientPhoneNumber} 
@@ -189,12 +201,17 @@ export const HomePage = () => {
             clientQueueDateTime = {clientQueueDateTime} // Queue start date time
             setClientVehicles={setClientVehicles}
           />
+          <QueueUpdater // Subcomponent that updates the queue status in the DynamoDB
+            customerContactId={clientContactId}
+          />
           <InfoContactAgent  // Subcomponent that fetches the agent contact information from the API (Agent info)
             clientContactId={clientContactId} 
             setAgentContactInformation={setAgentContactInformation} 
           />
           <Vehiculos
-            clientVehicles={clientVehicles}
+            clientContactId={clientContactId}
+            clientContactInformation={clientContactInformation}
+            onPolizaSelect={handlePolizaSelect}
           />
         </div>
         <div className="abajo">
@@ -202,6 +219,7 @@ export const HomePage = () => {
             nombre="Juan Perez"
             funcVentanaAyuda={showVentanaHandler}
             clientPhoneNumber={clientPhoneNumber}
+            poliza={selectedPoliza} 
           />
         </div>
       </Right>

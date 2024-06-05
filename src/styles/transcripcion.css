@@ -1,9 +1,13 @@
-
 .mensaje {
-    background-color: rgb(255, 255, 255);
-    width: 60%;
-    height: fit-content;
-    font-size: 20px;
+    max-width: 300px;
+    margin-bottom: 12px;
+    line-height: 24px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    
+    color: rgb(63, 63, 63);
+    text-align: center;
+    flex-direction: column;
     
 }
 
@@ -22,17 +26,6 @@
 
 }
 
-.lugar {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
 
-.lugar.agente {
-    margin-left: 20px;  
-}
-
-.lugar.cliente {
-    margin-left: 5px;  
-}
 
 
