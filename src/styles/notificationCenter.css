@@ -3,7 +3,7 @@
 .notification-center {
   background-color: #f9f9f9;
   border: 1px solid #ddd;
-  z-index: 3;
+  z-index: 2;
   padding: 20px;
   border-radius: 5px;
   width: 660px;
@@ -45,7 +45,7 @@
 
 
 .ventana-noticenter-completa {
-  z-index: 2;
+  z-index: 1;
   width: 1200px;
   height: 834px;
   background-color: rgba(56, 56, 56, 0.548);
