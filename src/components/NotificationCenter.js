@@ -93,7 +93,7 @@ const NotificationCenter = ({Agent}) => {
                 ))}
               </ul>
             ) : (
-              <Comentario Agent={username}/>
+              <Comentario Agent={Agent.username}/>
             )}
             <button className="my-button" onClick={toggleCerrarApp}>Close</button>
           </div>
