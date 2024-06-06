@@ -180,7 +180,6 @@ export const HomePage = () => {
         />
       )}
       <Left>
-        <NotificationCenter Agent={sesssionAgentInfo}/>
         <ListaTranscripcion 
           contactId={clientContactId}
         />
@@ -223,6 +222,7 @@ export const HomePage = () => {
           />
         </div>
       </Right>
+      <NotificationCenter Agent={sesssionAgentInfo}/>
     </Wrapper>
   );
 };

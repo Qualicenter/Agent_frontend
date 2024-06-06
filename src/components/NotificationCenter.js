@@ -1,4 +1,5 @@
-// NotificationCenter.js
+// Centro de mensajes enviados por el supervisor hacia el agente que inició sesión.
+// Autor: Mariluz Daniela Sánchez Morales
 import "../styles/notificationCenter.css";
 import React, { useCallback, useEffect, useState } from "react";
 import ReactSwitch from "react-switch";
@@ -92,7 +93,7 @@ const NotificationCenter = ({Agent}) => {
                 ))}
               </ul>
             ) : (
-              <Comentario/>
+              <Comentario Agent={Agent.username}/>
             )}
             <button className="my-button" onClick={toggleCerrarApp}>Close</button>
           </div>
