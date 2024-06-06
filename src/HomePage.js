@@ -56,6 +56,7 @@ export const HomePage = () => {
   const [clientContactInformation, setClientContactInformation] = useState(null);
   const [agentContactInformation, setAgentContactInformation] = useState(null);
   const [sesssionAgentInfo, setSessionAgentInfo] = useState(null);
+  const [selectedPoliza, setSelectedPoliza] = useState(null); 
 
   // Store the call log information to send to backend, updates when call starts and ends
   const [callLogInformation, setCallLogInformation] = useState(null); 
@@ -163,6 +164,10 @@ export const HomePage = () => {
     setShowVentanaAyuda(!showVentanaAyuda);
   };
 
+  const handlePolizaSelect = (poliza) => {
+    setSelectedPoliza(poliza); 
+  };
+
 
   // Return of the main page layout
   return (
@@ -204,7 +209,9 @@ export const HomePage = () => {
             setAgentContactInformation={setAgentContactInformation} 
           />
           <Vehiculos
-            clientVehicles={clientVehicles}
+            clientContactId={clientContactId}
+            clientContactInformation={clientContactInformation}
+            onPolizaSelect={handlePolizaSelect}
           />
         </div>
         <div className="abajo">
@@ -212,6 +219,7 @@ export const HomePage = () => {
             nombre="Juan Perez"
             funcVentanaAyuda={showVentanaHandler}
             clientPhoneNumber={clientPhoneNumber}
+            poliza={selectedPoliza} 
           />
         </div>
       </Right>

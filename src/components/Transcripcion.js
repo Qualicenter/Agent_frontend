@@ -1,4 +1,5 @@
 import "../styles/transcripcion.css";
+import "../styles/lista-transcripcion.css";
 
 const Transcripcion = ({ transcripcion }) => {
   const estiloTranscripcion =
@@ -12,12 +13,9 @@ const Transcripcion = ({ transcripcion }) => {
       : "");
 
   const lugarTranscripcion =
-    "lugar" +
     (transcripcion.Transcript.ParticipantRole === "AGENT"
       ? "agente"
-      : transcripcion.Transcript.ParticipantRole === "CUSTOMER"
-      ? "cliente"
-      : "");
+      : "cliente");
 
   let emoji;
   switch (transcripcion.Transcript.Sentiment) {
