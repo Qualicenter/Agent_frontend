@@ -15,6 +15,7 @@ const ListaTranscripcion = ({ contactId }) => {
     try {
       if (!contactId) {
         console.error("No contactId provided");
+        setTranscripcion([]);
         return;
       }
 
