@@ -1,22 +1,25 @@
-// Centro de mensajes enviados por el supervisor hacia el agente que inició sesión.
-// Autor: Mariluz Daniela Sánchez Morales
+/**
+ * @author Mariluz Daniela Sánchez Morales
+ * @author Pablo Spínola López 
+ * Notification center that stores messages sent by the supervisor to the logged-in agent.
+*/
 import "../styles/notificationCenter.css";
 import React, { useCallback, useEffect, useState } from "react";
 import ReactSwitch from "react-switch";
 import Comentario from "./Comentarios";
 
 const NotificationCenter = ({Agent}) => {
-  //Estado de la vista del centro de notificaciones
+  /* Notificaion center view states */
   const [activeView, setActiveView] = useState("Notifications");
   const [mostrarApp, setMostrarApp] = useState(false);
 
-  //Variable de fecha actual
+  /* Current date variables */
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
   const day = today.getDate();
 
-  //Efecto donde se guarda el dato de username de agente
+  /* Effect where it is ensured that the agent username is obtained before calling the api*/
   useEffect(() => {
     const hostUrl = "http://localhost:8080/messages/getMessages";
     if (Agent !== null) {
@@ -26,17 +29,18 @@ const NotificationCenter = ({Agent}) => {
     }
   }, [Agent, year, month, day]); 
 
-  //Estado del endpoint donde se descargan los mensajes recibidos
+  /* Endpoint state where received messages are downloaded */
   const [url, setUrl] = useState(""); 
 
-  //Función para cambiar vista del centro de notificaciones
+  /* Function to change view of the notification center */
   const handleViewChange = (checked) => {
     setActiveView(checked ? "Performance" : "Notifications");
   };
 
-  // Estado para almacenar las notificaciones 
+  /* State to store notifications */
   const [notifications, setNotifications] = useState([]);
 
+  /* Function that fetches data from DB and updates the notifications state. */
   const descargar = useCallback(async () => {
     try {
       if (url === "") {
@@ -51,7 +55,7 @@ const NotificationCenter = ({Agent}) => {
           const { Sender, Message } = item;
           return {
             sender: Sender,
-            content: Message || '', // En caso de que no exista un mensaje
+            content: Message || '',
           };
         });
         setNotifications(arrNuevo)
@@ -61,13 +65,13 @@ const NotificationCenter = ({Agent}) => {
     }
   }, [url]);
 
-  // Efecto de descarga de mensajes de la base de datos
+  /* Effect that downloads messages from the database.*/
   useEffect(() => {
     descargar();
   }, [descargar]);
 
 
-  //Estados del componente
+  /* Component states */
   const toggleCerrarApp = () => {
     setMostrarApp(!mostrarApp)
     setActiveView("Notifications")
@@ -76,7 +80,8 @@ const NotificationCenter = ({Agent}) => {
   const toggleMostrarApp = () => {
     setMostrarApp(true);
   };
-
+  
+  /*Return of the Notification Center layout*/
   return (
     <div className="notifCenter-center">
       {mostrarApp &&(
