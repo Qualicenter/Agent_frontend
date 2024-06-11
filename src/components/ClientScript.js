@@ -1,6 +1,6 @@
 /**
  * @author Abigail Donají Chávez Rubio
- * @author
+ * @author Pablo Spínola López
  * @author
  * Component containing the script for the client's call, the capture of the client's address,
  * the sending of the ambulance, crane and the adjuster

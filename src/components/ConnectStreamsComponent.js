@@ -1,3 +1,9 @@
+/**
+ * @author Gustavo Téllez Mireles
+ * @author Pablo Spínola López
+ * @author
+ * algo
+*/
 import { useEffect, useState } from 'react';
 import "./connect-streams-min.js";
 
