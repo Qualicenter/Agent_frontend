@@ -1,5 +1,6 @@
 /**
  * @author Eduardo Francisco Lugo Quintana
+ * @author Abigail Donají Chávez Rubio
  * Component that displays the button used in the client script
 */
 
