@@ -3,7 +3,7 @@
  * This file contains the LoginPage component that allows the user to log in.
  */
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { signIn } from "./components/AuthService";
 import "./styles/login-page.css";
 import { FaRegUser } from "react-icons/fa";
