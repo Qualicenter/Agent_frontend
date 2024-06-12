@@ -27,26 +27,25 @@ const VentanaAyuda = (props) => {
         nombreCliente: clientInfo
           ? clientInfo.FirstName + " " + clientInfo.LastName
           : "ClientePrueba",
-        generoCliente: clientInfo ? clientInfo.Gender : "No especificado",
+        generoCliente: clientInfo ? clientInfo.Gender : "Not especificated",
         fechaNacimientoCliente: clientInfo
           ? new Date(clientInfo.BirthDate)
           : new Date(),
         polizaCliente: clientInfo
           ? clientInfo.Attributes.Poliza
-          : "No especificado",
+          : "Not especificated",
         tipoCliente: clientInfo
           ? clientInfo.PartyTypeString
-          : "No especificado",
+          : "Not especificated",
       }),
     })
       .then((response) => {
         if (response.ok) {
-          console.log("Mensaje enviado");
-          alert("Mensaje enviado correctamente");
+          alert("Message sent successfully");
         }
       })
       .catch((error) => {
-        alert("Error al enviar mensaje");
+        alert("Error sending message: " + error);
       });
     cancelar(); // Close the help window
   };
@@ -54,7 +53,6 @@ const VentanaAyuda = (props) => {
   // Function to handle the message input
   const messageHandler = (e) => {
     setMessage(e.target.value);
-    console.log(message);
   };
 
   // Function to prevent closing the help window when clicking inside it
@@ -65,11 +63,11 @@ const VentanaAyuda = (props) => {
   return (
     <div className="ventana-ayuda-completa" onClick={cancelar}>
       <div className="ventana-ayuda" onClick={handleInnerClick}>
-        <h1>Solicitud de ayuda</h1>
-        <label htmlFor="message">Ingrese su mensaje</label>
+        <h1>Help request</h1>
+        <label htmlFor="message">Type your message</label>
         <textarea type="text" id="message" onChange={messageHandler}></textarea>
-        <button onClick={enviarMensaje}>Enviar</button>
-        <button onClick={cancelar}>Cancelar</button>
+        <button onClick={enviarMensaje}>Send</button>
+        <button onClick={cancelar}>Cancel</button>
       </div>
     </div>
   );
