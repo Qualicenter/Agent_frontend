@@ -51,7 +51,7 @@ const ForgotPasswPage = () => {
             alt="Qualitas logo"
             className="qualitas-logo"
           />
-          <h1>Recuperar su contraseña</h1>
+          <h1>Recover your password</h1>
           {showedField === "username" ? (
             <form onSubmit={forgotPasswHandler}>
               <div>
@@ -72,7 +72,7 @@ const ForgotPasswPage = () => {
                   </label>
                 </div>
               </div>
-              <button type="submit">Recuperar contraseña</button>
+              <button type="submit">Recover password</button>
             </form>
           ) : showedField === "code" ? (
             <form onSubmit={forgotPasswHandler}>
@@ -95,15 +95,15 @@ const ForgotPasswPage = () => {
                   </label>
                 </div>
               </div>
-              <button type="submit">Recuperar contraseña</button>
+              <button type="submit">Submit code</button>
             </form>
           ) : (
             <div></div>
           )}
           <p>
-            ¿Ya tienes cuenta?
+            ¿Do you have already an account?
             <br />
-            Iniciar sesión <a href="/login">aquí</a>.
+            Login <a href="/login">here</a>.
           </p>
         </div>
       </div>

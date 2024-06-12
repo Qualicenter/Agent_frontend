@@ -56,7 +56,7 @@ const LoginPage = () => {
             alt="Qualitas logo"
             className="qualitas-logo"
           />
-          <h1>Inicio de Sesión</h1>
+          <h1>Login</h1>
           <form onSubmit={loginHandler}>
             <div>
               <FaRegUser className="login-icon" />
@@ -97,9 +97,9 @@ const LoginPage = () => {
             <button type="submit">Login</button>
           </form>
           <p>
-            ¿Olvidaste tu contraseña?
+            ¿Did you forget your password?
             <br />
-            Haz click <a href="/forgot-passw">aquí</a>.
+            Click <a href="/forgot-passw">here</a>.
           </p>
         </div>
       </div>

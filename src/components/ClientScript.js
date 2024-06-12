@@ -1,7 +1,7 @@
 /**
  * @author Abigail Donají Chávez Rubio
  * @author Pablo Spínola López
- * @author
+ * @author Aldehil Sánchez
  * Component containing the script for the client's call, the capture of the client's address,
  * the sending of the ambulance, crane and the adjuster
 */
@@ -225,7 +225,7 @@ const ClientScript = (props) => {
           {servicioBanner} en camino a {direccion}
         </Banner>
       )}
-      <BotonAyuda onClick={props.funcVentanaAyuda}>Solicitar Ayuda</BotonAyuda>
+      <BotonAyuda onClick={props.funcVentanaAyuda}>Request help</BotonAyuda>
       <h1>Guión de Diálogo</h1>
       <p>
         <b>1.- Esta usted llamando al centro de atención de Qualitas</b>
