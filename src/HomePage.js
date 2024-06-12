@@ -173,7 +173,7 @@ export const HomePage = () => {
   return (
     <Wrapper>
       {showVentanaAyuda && (
-        <VentanaAyuda
+        <VentanaAyuda // Subcomponent that sends messages to the supervisor
           cancelar={showVentanaHandler}
           agentInfo={sesssionAgentInfo}
           clientInfo={clientContactInformation}
