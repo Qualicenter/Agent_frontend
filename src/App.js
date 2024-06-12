@@ -4,6 +4,12 @@ import LoginPage from "./LoginPage";
 import ForgotPasswPage from "./ForgotPasswPage";
 
 function App() {
+  /**
+   * Function to check if the user has an access token.
+   * returns true if the user has an access token, false otherwise.
+   * 
+   * Note: To increase security, this validation could be donde with jwt validation.
+   */
   const hasAccessToken = () => {
     const token = sessionStorage.getItem("accessToken");
     return !!token;
