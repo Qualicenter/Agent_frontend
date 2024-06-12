@@ -1,3 +1,9 @@
+/**
+ * @author Eduardo Francisco Lugo Quintana
+ * @author Gustavo Tellez Mireles
+ * Main page of the agent application
+*/
+
 import styled from "styled-components";
 import InfoCliente from "./components/InfoCliente";
 import Vehiculos from "./components/Vehiculos";
@@ -10,6 +16,7 @@ import ListaTranscripcion from "./components/ListaTranscripcion";
 import NotificationCenter from "./components/NotificationCenter";
 import QueueUpdater from "./components/QueueUpdater";
 
+/* Style characteristics for the main page layout */
 const Wrapper = styled.main`
   position: relative;
   width: 1194px;
@@ -48,10 +55,10 @@ const Right = styled.section`
 `;
 
 export const HomePage = () => {
+  // State variables for the main page layout
   const [clientContactId, setClientContactId] = useState(null);
   const [clientPhoneNumber, setClientPhoneNumber] = useState(null);
   const [showVentanaAyuda, setShowVentanaAyuda] = useState(false);
-  const [clientVehicles, setClientVehicles] = useState(null);
   const [clientQueueDateTime, setClientQueueDateTime] = useState(null);
   const [clientContactInformation, setClientContactInformation] = useState(null);
   const [agentContactInformation, setAgentContactInformation] = useState(null);
@@ -63,13 +70,11 @@ export const HomePage = () => {
   // When a call starts and all the information is set, send the call log information to the backend
   useEffect(() => {
     //If call started, send the call log information to the backend
-    console.log("Contact Event - Attribute UPDATE: ", clientContactId, clientPhoneNumber, clientQueueDateTime, clientContactInformation, agentContactInformation);
     if (clientContactId !== null && 
       clientPhoneNumber !== null && 
       clientQueueDateTime !== null && 
       clientContactInformation !== null && 
       agentContactInformation !== null) { // Ensure all the information is set
-        console.log("Contact Event - All attributes are set, sending to backend")
         setCallLogInformation({
           clientContactId, // Contact ID from Connect Streams API in ConnectStreamsComponent.js
           clientPhoneNumber, // Phone number from Connect Streams API in vConnectStreamsComponent.js
@@ -86,7 +91,6 @@ export const HomePage = () => {
   useEffect(() => {
     // Update call log information when it's set initially
     if (callLogInformation !== null) {
-      console.log("Contact Event - Call Log Information set to: ", callLogInformation);
       // Send the call log information to the backend (Dynamo DB)
       insertNewCallLog(callLogInformation);
     }
@@ -100,7 +104,6 @@ export const HomePage = () => {
         const formattedTime = callLogInformation.clientQueueDateTime.replace('T', ' ') + ' UTC';
         const finalDurationMillis = new Date() - new Date(formattedTime);
         const finalDuration = Math.floor(finalDurationMillis / 1000); // Convert milliseconds to seconds
-        console.log("Contact Event - Call Ended, updating call log information with final duration and ended flag", id, ended, finalDuration);
 
         try {
           await updateCallLog(id, ended, finalDuration);
@@ -108,7 +111,6 @@ export const HomePage = () => {
           updateCallLog(id, ended, finalDuration);
           
           // Reset the call log information after updating
-          console.log("Contact Event - Registry updated, resetting call log information");
           setCallLogInformation(null);
         } catch (error) {
           console.error("Error updating call log information", error);
@@ -139,7 +141,8 @@ export const HomePage = () => {
     }
   };
 
-  const updateCallLog = async (id, ended, finalDuration) => {
+  /* Function to update the call log information when the call ends */
+  const updateCallLog = async (id, finalDuration) => {
     try {
         const response = await fetch("http://localhost:8080/callsdata/updateCallData", {
             method: "PUT",
@@ -149,9 +152,7 @@ export const HomePage = () => {
             body: JSON.stringify({ clientContactId: id, finalDuration: finalDuration }),
         });
         
-        if (response.ok) {
-            console.log("Contact Event - Call data updated successfully");
-        } else {
+        if (!response.ok) {
             throw new Error('Error updating call data');
         }
     } catch (error) {
@@ -164,6 +165,7 @@ export const HomePage = () => {
     setShowVentanaAyuda(!showVentanaAyuda);
   };
 
+  // Function to handle the selected poliza
   const handlePolizaSelect = (poliza) => {
     setSelectedPoliza(poliza); 
   };
