@@ -63,7 +63,7 @@ const VentanaAyuda = (props) => {
   return (
     <div className="ventana-ayuda-completa" onClick={cancelar}>
       <div className="ventana-ayuda" onClick={handleInnerClick}>
-        <h1>Help request</h1>
+        <h1>Request help</h1>
         <label htmlFor="message">Type your message</label>
         <textarea type="text" id="message" onChange={messageHandler}></textarea>
         <button onClick={enviarMensaje}>Send</button>
