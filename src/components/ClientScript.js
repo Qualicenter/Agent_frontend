@@ -1,6 +1,7 @@
 /**
  * @author Abigail Donají Chávez Rubio
  * @author Pablo Spínola López
+ * @author Eduardo Francisco Lugo Quintana
  * @author Aldehil Sánchez
  * Component containing the script for the client's call, the capture of the client's address,
  * the sending of the ambulance, crane and the adjuster
@@ -128,12 +129,10 @@ const ClientScript = (props) => {
     })
       .then((response) => {
         if (response.ok) {
-          console.log("SMS enviado");
         }
       })
       .catch((error) => {
         alert("Error al enviar SMS");
-        console.log("Error al enviar SMS: " + error);
       });
   };
 
@@ -141,7 +140,6 @@ const ClientScript = (props) => {
   const Handler = (event) => {
     event.preventDefault();
     setDireccion(event.target.value);
-    console.log(direccion);
   };
 
   /*Function to show the banner with the adjuster service */
@@ -160,7 +158,6 @@ const ClientScript = (props) => {
       setDireccionGuardada(true);
       mostrarBanner("Ajustador");
       await enviarSMS("asegurador");
-      console.log(props.clientPhoneNumber);
     }
   };
 
@@ -186,6 +183,7 @@ const ClientScript = (props) => {
       .catch((error) => console.log("Error al enviar SMS: " + error));
   };
 
+    /*Function to register the sinester in the database*/
   const enviarSiniestro = async () => {
     await fetch("http://localhost:8080/cliente/addSiniestro", {
       method: "POST",
@@ -201,40 +199,32 @@ const ClientScript = (props) => {
     })
       .then((response) => {
         if (response.ok) {
-          console.log("Siniestro enviado");
           alert("Siniestro enviado");
         }
       })
       .catch((error) => {
         alert("Error al enviar siniestro");
-        console.log("Error al enviar siniestro: " + error);
       });
   };
-
-  useEffect(() => {
-    if (props.poliza) {
-        console.log("Poliza: ", props.poliza);
-    }
-  })
 
   /*Return of the client script layout*/
   return (
     <Container>
       {ajustadorBanner && (
         <Banner>
-          {servicioBanner} en camino a {direccion}
+          {servicioBanner} on its way to {direccion}
         </Banner>
       )}
       <BotonAyuda onClick={props.funcVentanaAyuda}>Request help</BotonAyuda>
-      <h1>Guión de Diálogo</h1>
+      <h1>Dialogue Script</h1>
       <p>
-        <b>1.- Esta usted llamando al centro de atención de Qualitas</b>
+        <b>1.- You are calling to the Qualitas attention center</b>
       </p>
       <p>
-        <b>2. ¿{props.nombre}, se encuentra usted bien?</b>
+        <b>2. {props.nombre}, are you ok? are you injured?</b>
       </p>
       <p>
-        <b>3. ¿En qué ubicación se encuentra?</b>
+        <b>3. Which is you current location?</b>
       </p>
       <Form>
         <input
@@ -248,8 +238,7 @@ const ClientScript = (props) => {
       <Boton action={borrar_direccion} txt="Delete address" />
       <p>
         <b>
-          4. (En caso de que necesite asistencia médica) Esta llegando una
-          ambulancia a su ubicación.
+          4. (In case medical assistance is needed) An ambulance is going to your location
         </b>
       </p>
       <Boton
@@ -260,41 +249,35 @@ const ClientScript = (props) => {
       {openModal && <Modal closeModal={setOpenModal} />}
       <p>
         <b>
-          5. ¿{props.nombre}, su coche puede moverse o necesita una grúa que lo
-          asista?
+          5. {props.nombre}, can your car move or do you need a tow truck?
         </b>
       </p>
       <p>
         <b>
-          6. (En caso de que no se pueda mover) Perfecto, ya va la grúa en
-          camino
+          6. (In case a tow is need) Perfect, the truck is on its way.
         </b>
       </p>
-      <Boton action={() => {mandar_grua(); setGrua(true)}} txt="Send Crane" disabled={seBloquea} />
+      <Boton action={() => {mandar_grua(); setGrua(true)}} txt="Send tow truck" disabled={seBloquea} />
       {openModal && <Modal closeModal={setOpenModal} />}
       <p>
-        <b>7. Tenga en cuenta un ajustador ya va en camino a su dirección</b>
+        <b>7. The insurance agent is also already on its way</b>
       </p>
       <p>
         <b>
-          8. Aquí me aparece que tiene registrado/s [Menciona el nombre de el o
-          los vehiculos cubiertos por su poliza]. ¿En cuál vehiculo ocurrio el
-          accidente?
+          8. I can see that you have registered [Mention the vehicle or vehicles that are registered]. In which vehicle ocurred the accident?
         </b>
       </p>
       <p>
         <b>
-          9. Muy bien, su poliza va a cubrir los siguientes gastos [Menciona los
-          servicios que estan siendo cubiertos]
+          9. Very well, your policy will cover the following expenses: [Mentions the coverage of the policy]
         </b>
       </p>
       <p>
         <b>
-          10. ¿Hay algo más que pueda hacer por usted en este momento mientras
-          espera?
+          10. Is there something else I can do while you wait for our agent?
         </b>
       </p>
-      <BotonEnviar onClick={enviarSiniestro} disabled={!direccionGuardada}>Enviar</BotonEnviar>
+      <BotonEnviar onClick={enviarSiniestro} disabled={!direccionGuardada}>Send</BotonEnviar>
     </Container>
   );
 };

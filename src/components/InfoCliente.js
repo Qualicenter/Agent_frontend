@@ -1,9 +1,16 @@
+/**
+ * @author Eduardo Francisco Lugo Quintana
+ * @author Gustavo Tellez Mireles
+ * Component that displays the information of the client when a call is answered
+*/
+
 import styled from "styled-components";
 import InfoComponent from "./InfoComponent";
 import TimerComponent from "./TimerComponent";
 import { CustomerProfiles, SearchProfilesCommand } from '@aws-sdk/client-customer-profiles';
 import { useEffect, useState } from "react";
 
+/* Style characteristics for the components used in the client script */
 const Container = styled.div`
     width: 50%;
     height: 100%;
@@ -67,10 +74,8 @@ const InfoCliente = ( props ) => {
       console.log("Contact Event - Contact ID from useEffect:", {clientContactId});
       //If the contact ID is not null, fetch the client information
       if (clientContactId !== null) {
-          console.log("Contact Event - Contact ID not null, attempting to fetch client information")
           fetchCustomerProfile(clientPhoneNumber); // Updates useState clientContactInformation
       } else {
-          console.log("Contact Event - Contact ID is null, not fetching client information")
           setClientContactInformation(null);
       }
     }, [clientContactId]);
@@ -79,7 +84,6 @@ const InfoCliente = ( props ) => {
     useEffect(() => {
       // If the contact information is not null, update the front end with the information
       if (clientContactInformation !== null) {
-        console.log("Contact Event - Contact information from useEffect:", {clientContactInformation});
 
         if (clientContactInformation.MiddleName) {
           setClientName(clientContactInformation.FirstName + ' ' + clientContactInformation.MiddleName + ' ' + clientContactInformation.LastName);
@@ -93,7 +97,6 @@ const InfoCliente = ( props ) => {
         setClientVehicles(clientContactInformation.AdditionalInformation);
       // If the contact information is null, update the front end to show no contact information
       } else {
-        console.log("Contact Event - Contact information is null");
         setClientName('');
         setClientGender('');
         setClientPoliza('');
@@ -107,17 +110,14 @@ const InfoCliente = ( props ) => {
     // QueueDateTime updates (If the queue start time is not null, update the front end with the information)
     useEffect(() => {
       if (clientQueueDateTime!==null){
-        console.log("Contact Event - Setting QueueDateTimeToggle:", {clientQueueDateTime});
         setClientQueueDateTimeToggle(clientQueueDateTime);
       } else {
-        console.log("Contact Event - Setting QueueDateTimeToggle NULL:", {clientQueueDateTime});
         setClientQueueDateTimeToggle(null);
       }
     }, [clientQueueDateTime]);
 
     // Function to fetch the client information from the API 
     const fetchCustomerProfile = async (phone) => {
-        console.log("Contact Event - Attempting to fetch client information TWO")
         try {
           const credentials = {
             accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID, //AWS_ACCESS_KEY_ID
@@ -144,11 +144,8 @@ const InfoCliente = ( props ) => {
           
           if (response.Items && response.Items.length > 0) {
             const contact = response.Items[0];
-            console.log("Contact Event - Successfully fetched contact info:", contact);
             setClientContactInformation(contact); // Update state with fetched contact information
-          } else {
-            console.log("Contact Event - Customer profile not found.");
-          }
+          } 
         } catch (error) {
           console.error("Contact Event - Error fetching contact information:", error);
         }
@@ -156,16 +153,16 @@ const InfoCliente = ( props ) => {
 
     return (
         <Container>
-            <h1>Información del Cliente</h1>
+            <h1>Client Information</h1>
             <div className="info">
                 <Column>
-                    <InfoComponent title="Nombre" content={clientName} />
-                    <InfoComponent title="Género" content={clientGender} />
-                    <InfoComponent title="Edad" content={clientAge} />
+                    <InfoComponent title="Name" content={clientName} />
+                    <InfoComponent title="Gender" content={clientGender} />
+                    <InfoComponent title="Age" content={clientAge} />
                 </Column>
                 <Column>
-                    <InfoComponent title="Póliza" content={clientPoliza} />
-                    <InfoComponent title="Tipo de Cliente" content={clientPartyTypeString} />
+                    <InfoComponent title="Insurance Policy" content={clientPoliza} />
+                    <InfoComponent title="Client Type" content={clientPartyTypeString} />
                     <TimerComponent 
                       contactId ={clientContactId}
                       queueStartTime={clientQueueDateTimeToggle} 
