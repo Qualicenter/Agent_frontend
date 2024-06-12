@@ -1,12 +1,19 @@
+/**
+ * @author Aldehil Sánchez
+ * Component that contains the help window for the agent to
+ * request help from the supervisor.
+ */
+
 import { useState } from "react";
 import "../styles/ventana-ayuda.css";
 
 const VentanaAyuda = (props) => {
-  const cancelar = props.cancelar;
+  const cancelar = props.cancelar; // Function to close the help window
   const agentInfo = props.agentInfo;
   const clientInfo = props.clientInfo;
   const [message, setMessage] = useState("");
 
+  // Function to send the message to the supervisor
   const enviarMensaje = async () => {
     await fetch("http://localhost:8080/messages/createMessage", {
       method: "POST",
@@ -40,17 +47,17 @@ const VentanaAyuda = (props) => {
       })
       .catch((error) => {
         alert("Error al enviar mensaje");
-        console.log("Error al enviar mensaje: " + error);
       });
-    console.log(message);
-    cancelar();
+    cancelar(); // Close the help window
   };
 
+  // Function to handle the message input
   const messageHandler = (e) => {
     setMessage(e.target.value);
     console.log(message);
   };
 
+  // Function to prevent closing the help window when clicking inside it
   const handleInnerClick = (e) => {
     e.stopPropagation();
   };
