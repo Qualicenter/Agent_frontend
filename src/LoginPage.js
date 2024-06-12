@@ -1,3 +1,8 @@
+/**
+ * @author Aldehil Sánchez
+ * This file contains the LoginPage component that allows the user to log in.
+ */
+
 import { useEffect, useState } from "react";
 import { signIn } from "./components/AuthService";
 import "./styles/login-page.css";
@@ -9,27 +14,27 @@ const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  // Function to handle the username input
   const usernameHandler = (e) => {
     setUsername(e.target.value);
   };
+
+  // Function to handle the password input
   const passwordHandler = (e) => {
     setPassword(e.target.value);
   };
 
-  useEffect(() => {
-    console.log("Username:", username);
-    console.log("Password:", password);
-  }, [username, password]);
-
+  // Function to handle the login when the form is submitted
   const loginHandler = async (e) => {
     e.preventDefault();
     try {
+      // Call the signIn function to authenticate the user
       const session = await signIn(username, password);
-      console.log("Sign in successful", session);
+      // If the session is valid, store the access token in the session storage
       if (session && typeof session.AccessToken !== "undefined") {
         sessionStorage.setItem("accessToken", session.AccessToken);
         if (sessionStorage.getItem("accessToken")) {
-          window.location.href = "/home";
+          window.location.href = "/home"; // Redirect to the home page if the login is successful
         } else {
           console.error("Session token was not set properly.");
         }
