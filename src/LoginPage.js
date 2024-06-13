@@ -1,4 +1,9 @@
-import { useEffect, useState } from "react";
+/**
+ * @author Aldehil Sánchez
+ * This file contains the LoginPage component that allows the user to log in.
+ */
+
+import { useState } from "react";
 import { signIn } from "./components/AuthService";
 import "./styles/login-page.css";
 import { FaRegUser } from "react-icons/fa";
@@ -9,27 +14,27 @@ const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  // Function to handle the username input
   const usernameHandler = (e) => {
     setUsername(e.target.value);
   };
+
+  // Function to handle the password input
   const passwordHandler = (e) => {
     setPassword(e.target.value);
   };
 
-  useEffect(() => {
-    console.log("Username:", username);
-    console.log("Password:", password);
-  }, [username, password]);
-
+  // Function to handle the login when the form is submitted
   const loginHandler = async (e) => {
     e.preventDefault();
     try {
+      // Call the signIn function to authenticate the user
       const session = await signIn(username, password);
-      console.log("Sign in successful", session);
+      // If the session is valid, store the access token in the session storage
       if (session && typeof session.AccessToken !== "undefined") {
         sessionStorage.setItem("accessToken", session.AccessToken);
         if (sessionStorage.getItem("accessToken")) {
-          window.location.href = "/home";
+          window.location.href = "/home"; // Redirect to the home page if the login is successful
         } else {
           console.error("Session token was not set properly.");
         }
@@ -51,7 +56,7 @@ const LoginPage = () => {
             alt="Qualitas logo"
             className="qualitas-logo"
           />
-          <h1>Inicio de Sesión</h1>
+          <h1>Login</h1>
           <form onSubmit={loginHandler}>
             <div>
               <FaRegUser className="login-icon" />
@@ -92,9 +97,9 @@ const LoginPage = () => {
             <button type="submit">Login</button>
           </form>
           <p>
-            ¿Olvidaste tu contraseña?
+            ¿Did you forget your password?
             <br />
-            Haz click <a href="/forgot-passw">aquí</a>.
+            Click <a href="/forgot-passw">here</a>.
           </p>
         </div>
       </div>

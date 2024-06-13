@@ -1,5 +1,13 @@
+/**
+ * @author Eduardo Francisco Lugo Quintana
+ * @author Abigail Donají Chávez Rubio
+ * Component that displays the button used in the client script
+*/
+
+
 import styled from "styled-components";
 
+/* Style characteristics for the button */
 const Button = styled.button`
     width: 127px;
     height: 27px;

@@ -1,6 +1,12 @@
+/**
+ * @author Eduardo Francisco Lugo Quintana
+ * Component that displays the information of the client's vehicles when a call is answered
+ * Showing the vehicles registered to the client and allowing the agent to select one
+*/
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
+/* Style characteristics for the components used in the client script */
 const Container = styled.div`
     width: 50%;
     height: 100%;
@@ -37,9 +43,11 @@ const CardCarro = styled.div`
 `;
 
 const Vehiculos = ({ clientContactId, clientContactInformation, onPolizaSelect }) => { 
+    /* State variables for the component */
     const [vehiculosData, setVehiculosData] = useState([]);
     const [selectedCar, setSelectedCar] = useState(null);
 
+    /* Fetch the vehicles registered to the client when a call is answered */
     useEffect(() => {
         if (clientContactId && clientContactInformation) {
             const fetchVehiculos = async () => {
@@ -56,6 +64,7 @@ const Vehiculos = ({ clientContactId, clientContactInformation, onPolizaSelect }
         }
     }, [clientContactId, clientContactInformation]);
 
+    /* Function to handle the click on a vehicle card */
     const handleCardClick = (vehiculo) => {
         setSelectedCar(vehiculo.Placa);
         onPolizaSelect(vehiculo.numPoliza);
@@ -63,23 +72,23 @@ const Vehiculos = ({ clientContactId, clientContactInformation, onPolizaSelect }
 
     return (
         <Container>
-            <h1>Vehiculos Registrados</h1>
+            <h1>Registered Vehicles</h1>
             
-            {vehiculosData.length > 0 && clientContactId ? (
+            {vehiculosData.length > 0 && clientContactId ? ( //If the client has registered vehicles and a call is connected
                 vehiculosData.map((vehiculo) => (
                     <CardCarro key={vehiculo.Placa} onClick={() => handleCardClick(vehiculo) } selected={selectedCar === vehiculo.Placa}> 
                         <div>
-                            <h3>Vehículo</h3>
+                            <h3>Vehicle</h3>
                             <p>{vehiculo.Marca} {vehiculo.Modelo} {vehiculo.Año}</p>
                         </div>
                         <div className="placas">
-                            <h3>Placas</h3>
+                            <h3>Plates</h3>
                             <p>{vehiculo.Placa}</p>
                         </div>
                     </CardCarro>
                 ))
             ) : (
-                <p>No hay vehículos registrados.</p>
+                <p>There are no registered vehicles.</p>
             )}
         </Container>
     );
