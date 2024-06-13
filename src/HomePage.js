@@ -59,6 +59,7 @@ export const HomePage = () => {
   const [clientContactId, setClientContactId] = useState(null);
   const [clientPhoneNumber, setClientPhoneNumber] = useState(null);
   const [showVentanaAyuda, setShowVentanaAyuda] = useState(false);
+  const [clientVehicles, setClientVehicles] = useState(null);
   const [clientQueueDateTime, setClientQueueDateTime] = useState(null);
   const [clientContactInformation, setClientContactInformation] = useState(null);
   const [agentContactInformation, setAgentContactInformation] = useState(null);
