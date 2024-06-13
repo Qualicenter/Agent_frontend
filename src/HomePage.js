@@ -218,7 +218,7 @@ export const HomePage = () => {
         </div>
         <div className="abajo">
           <ClientScript
-            nombre="Juan Perez"
+            nombre={clientContactInformation ? clientContactInformation.FirstName + " " + clientContactInformation.LastName : "[Client Name]"}
             funcVentanaAyuda={showVentanaHandler}
             clientPhoneNumber={clientPhoneNumber}
             poliza={selectedPoliza} 
