@@ -1,3 +1,8 @@
+/**
+ * @author Gustavo Tellez Mireles
+ * Subcomponent that displays the total call duration (hours, minutes, seconds) since the call got in queue and changes the color based on the elapsed time
+*/
+
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 

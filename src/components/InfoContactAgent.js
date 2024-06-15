@@ -1,7 +1,11 @@
+/**
+ * @author Gustavo Tellez Mireles
+ * Subcomponent that retrieves the information of the agent when a call is answered (Queue ID, Agent ID, Agent Email, Agent Name, Agent Username)
+*/
+
 import { useEffect } from 'react';
 import { ConnectClient, DescribeContactCommand, DescribeUserCommand } from '@aws-sdk/client-connect';
 
-// 
 const AgentContactInformation = (props) => {
   const {
     clientContactId,
