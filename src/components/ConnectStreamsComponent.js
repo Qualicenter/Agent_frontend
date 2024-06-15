@@ -4,7 +4,7 @@
  * Component that initializes the Connect Streams API and initiates the subscription to contact events and agent events
  * Embeds an iframe to display the Connect Streams API
 */
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import "./connect-streams-min.js";
 
 const ConnectStreamsComponent = (props) => {

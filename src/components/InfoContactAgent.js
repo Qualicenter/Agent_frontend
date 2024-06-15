@@ -77,7 +77,7 @@ const AgentContactInformation = (props) => {
 
       fetchAgentContactInformation();
     }
-  }, [clientContactId]);
+  }, [clientContactId, setAgentContactInformation]);
 
   return null;
 };
