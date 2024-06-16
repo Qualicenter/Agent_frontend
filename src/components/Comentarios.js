@@ -1,4 +1,8 @@
-//Author: Gerardo Rios
+/** 
+ * @author Gerardo Rios Mejía
+ * Code where the feedback from the supervisor is displayed
+ */
+
 import preguntas from "./Titulos";
 import { useState, useEffect, useCallback } from "react";
 import "../styles/comentarios.css";
@@ -6,23 +10,25 @@ import "../styles/comentarios.css";
 function Comentario({ Agent }) {
   const [preguntaActual, setPreguntaActual] = useState(0);
   const [comments, setComments] = useState([]);
-  const [score, setScore] = useState(null); 
+  const [score, setScore] = useState(null);
   const [currentCommentIndex, setCurrentCommentIndex] = useState(0);
 
+  /**Function to move to the next question */
   const Siguiente = () => {
     setCurrentCommentIndex((prevIndex) => prevIndex + 1);
     setPreguntaActual((prevPreguntaActual) => (prevPreguntaActual + 1) % preguntas.length);
   };
 
+  /**Function to move to the previous question */
   const Anterior = () => {
     setCurrentCommentIndex((prevIndex) => prevIndex - 1);
     setPreguntaActual((prevPreguntaActual) => (prevPreguntaActual - 1 + preguntas.length) % preguntas.length);
   };
 
-  console.log("Username a usar:", Agent);
-
+  /** API to retrieve feedback*/
   const [url] = useState(`http://localhost:8080/EncuestaModel/getEncuesta`);
 
+  /**Function to download the API */
   const descargar = useCallback(async () => {
     try {
       const response = await fetch(url);
@@ -31,10 +37,7 @@ function Comentario({ Agent }) {
       }
       const data = await response.json();
 
-      console.log("Array recibido de la API:", data);
-
       if (Agent) {
-        // Buscar un string similar a Agent en el array de datos
         const agentData = data.find(item => item.username === Agent);
         if (agentData) {
           console.log("Datos encontrados para el agente:", agentData);
@@ -52,10 +55,12 @@ function Comentario({ Agent }) {
     }
   }, [url, Agent]);
 
+  /**useEffect to fetch data when the component mounts and when the descargar function changes*/
   useEffect(() => {
     descargar();
   }, [descargar]);
 
+  /** Return of the layout where the agent can observe their feedback */
   return (
     <div className='boton'>
       <div className='comentarios'>
