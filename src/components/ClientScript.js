@@ -4,7 +4,7 @@
  * @author Eduardo Francisco Lugo Quintana
  * @author Aldehil Sánchez
  * Component containing the script for the client's call, the capture of the client's address,
- * the sending of the ambulance, crane and the adjuster
+ * the sending of the ambulance, tow truck and the adjuster
 */
 
 import styled from "styled-components";
@@ -12,7 +12,7 @@ import { useState, useEffect} from "react";
 import Boton from "./Boton";
 import Modal from "./Modal";
 
-/*Sytle characteristics for the components used in the client script*/
+/*Style characteristics for the components used in the client script*/
 const Container = styled.div`
   height: 100%;
   display: flex;
@@ -175,7 +175,7 @@ const ClientScript = (props) => {
       .catch((error) => console.log("Error al enviar SMS: " + error));
   };
 
-  /*Function to send the crane sms and show the modal*/
+  /*Function to send the tow truck sms and show the modal*/
   const mandar_grua = async () => {
     console.log("Grua enviada a:" + direccion);
     await enviarSMS("grúa")
