@@ -2,7 +2,7 @@
  * @author Aldehil Sánchez
  * This file contains the functions and operations to interact with the Cognito service.
  * It includes functions to sign in, and change password.
-*/
+ */
 
 import {
   CognitoIdentityProviderClient,
@@ -12,8 +12,12 @@ import {
 } from "@aws-sdk/client-cognito-identity-provider";
 
 const config = {
-  region: process.env.REACT_APP_COGNITO_REGION,
-  clientId: process.env.REACT_APP_COGNITO_CLIENT_ID,
+  region: process.env.REACT_APP_COGNITO_REGION
+    ? process.env.REACT_APP_COGNITO_REGION
+    : "us-east-1",
+  clientId: process.env.REACT_APP_COGNITO_CLIENT_ID
+    ? process.env.REACT_APP_COGNITO_CLIENT_ID
+    : "YOUR_CLIENT_ID",
 };
 
 export const cognitoClient = new CognitoIdentityProviderClient({
