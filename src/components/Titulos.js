@@ -1,3 +1,9 @@
+/** 
+ * @author Gerardo Rios Mejía
+ * List where the titles are stored
+ */
+
+
 const preguntas = [
     {
         titulo: "Does the agent demonstrate a solid understanding of accident care procedures?",
