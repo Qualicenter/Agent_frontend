@@ -1,11 +1,13 @@
 /**
  * @author Gustavo Tellez Mireles
+ * @author Jorge Iván Rodríguez Reyes
  * Subcomponent that displays the total call duration (hours, minutes, seconds) since the call got in queue and changes the color based on the elapsed time
 */
 
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
+/*Style for the component, color can be passed as a prop*/
 const Div = styled.div`
     display: flex;
     flex-direction: column;
@@ -24,6 +26,7 @@ const Div = styled.div`
 `
 
 const TimerComponent = (props) => {
+    /*State variables*/
     const { queueStartTime, contactId } = props;
     const [elapsedTime, setElapsedTime] = useState('');
     const [color, setColor] = useState('green');
@@ -31,32 +34,25 @@ const TimerComponent = (props) => {
     useEffect(() => {
         if (queueStartTime && contactId) {
             const calculateElapsedTime = () => {
-                console.log('Contact Event - TimerComponent input attribute:', queueStartTime);
-    
-                // Transform the queueStartTime string
+                /*Transform the queueStartTime string into UTC format*/
                 const formattedQueueStartTime = queueStartTime.replace('T', ' ') + ' UTC';
-                console.log('TimerComponent - formattedQueueStartTime:', formattedQueueStartTime);
     
-                // Create Date objects
+                /*Create Date objects*/
                 const localQueueStartTime = new Date(formattedQueueStartTime);
-                console.log('TimerComponent - formatted to Date:', localQueueStartTime);
     
                 const now = new Date();
-                console.log('TimerComponent - Date now', now);
     
-                // Calculate the time difference in milliseconds
+                /*Calculate the time difference in milliseconds*/
                 const timeDifference = now - localQueueStartTime;
-                console.log('TimerComponent - timeDifference:', timeDifference);
     
-                // Convert timeDifference to hours, minutes, and seconds
+                /*Convert timeDifference to hours, minutes, and seconds*/
                 const hours = Math.floor(timeDifference / (1000 * 60 * 60));
                 const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
     
-                console.log('TimerComponent - h/m/s:', hours, minutes, seconds);
                 setElapsedTime(`${hours}h ${minutes}m ${seconds}s`);
 
-                // Determine the color based on the elapsed time
+                /*Determine the color based on the elapsed time*/
                 const totalMinutes = hours * 60 + minutes + seconds / 60;
                 
                 if (totalMinutes <= 2.5) {
@@ -72,7 +68,7 @@ const TimerComponent = (props) => {
     
             return () => clearInterval(timerInterval);
         } else {
-            setElapsedTime(''); // Reset elapsedTime if queueStartTime is null
+            setElapsedTime(''); /*Reset elapsedTime if queueStartTime is null*/
         }
     }, [queueStartTime, contactId]);
     
