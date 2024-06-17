@@ -1,10 +1,10 @@
 /**
  * @author Gustavo Téllez Mireles
  * @author Pablo Spínola López
- * @author
- * algo
+ * Component that initializes the Connect Streams API and initiates the subscription to contact events and agent events
+ * Embeds an iframe to display the Connect Streams API
 */
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import "./connect-streams-min.js";
 
 const ConnectStreamsComponent = (props) => {
@@ -59,6 +59,7 @@ const ConnectStreamsComponent = (props) => {
     connect.agent(subscribeToAgentEvents);
   };
   
+  // Agent events (Answered call, Disconnected call, etc.)
   const subscribeToAgentEvents = async (agent) => {
     try {
       const agentConfiguration = agent.getConfiguration();
@@ -69,6 +70,7 @@ const ConnectStreamsComponent = (props) => {
     }
   };
 
+  // Contact events (Incoming call, Connected call, Ended call, etc.)
   const subscribeToContactEvents = async (contact) => {
     try {
       // Extract the 'CurrentTime' attribute from the contact's attribute map
@@ -94,13 +96,9 @@ const ConnectStreamsComponent = (props) => {
       console.error("Contact Event - Error fetching phone number:", error);
     }
 
-    // Route to the respective handler
-    //contact.onIncoming(handleContactIncoming); 
-    //contact.onAccepted(handleContactAccepted);
-    //contact.onConnecting(handleContactConnecting);
+    // Route to the respective handler (onIncoming, onAccepted, onConnecting, onConnected, onEnded, onDestroyed)
     contact.onConnected(handleContactConnected);
     contact.onEnded(handleContactEnded);
-    //contact.onDestroyed(handleContactDestroyed);
   };
 
   let counter = 0;
