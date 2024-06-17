@@ -81,7 +81,7 @@ const CallLogHandler = ({
   const insertNewCallLog = async (callLogInformation) => {
     try {
       const response = await fetch(
-        "http://localhost:8080/callsdata/createCallData",
+        `${process.env.REACT_APP_FETCH_URL ? process.env.REACT_APP_FETCH_URL : 'http://localhost:8080'}/callsdata/createCallData`,
         {
           method: "POST",
           headers: {
@@ -105,7 +105,7 @@ const CallLogHandler = ({
   const updateCallLog = async (id, finalDuration) => {
     try {
       const response = await fetch(
-        "http://localhost:8080/callsdata/updateCallData",
+        `${process.env.REACT_APP_FETCH_URL ? process.env.REACT_APP_FETCH_URL : 'http://localhost:8080'}/callsdata/updateCallData`,
         {
           method: "PUT",
           headers: {
