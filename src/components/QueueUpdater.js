@@ -8,7 +8,7 @@ const QueueUpdater = ({ customerContactId }) => {
     const updateQueue = async () => {
       // Send a PUT request to the server to update the queue data of the contact id
       try {
-        const response = await fetch('http://localhost:8080/queuedata/updateQueueData', {
+        const response = await fetch(`${process.env.REACT_APP_FETCH_URL ? process.env.REACT_APP_FETCH_URL : 'http://localhost:8080'}/queuedata/updateQueueData`, {
           method: 'PUT',
           headers: {
              'Content-Type': 'application/json' 

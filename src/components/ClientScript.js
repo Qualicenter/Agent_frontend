@@ -116,7 +116,7 @@ const ClientScript = (props) => {
 
   /*Function to send the SMS to the client */
   const enviarSMS = async (service) => {
-    await fetch("http://localhost:8080/sms/enviarMensaje", {
+    await fetch(`${process.env.REACT_APP_FETCH_URL ? process.env.REACT_APP_FETCH_URL : 'http://localhost:8080'}/sms/enviarMensaje`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -185,7 +185,7 @@ const ClientScript = (props) => {
 
     /*Function to register the sinester in the database*/
   const enviarSiniestro = async () => {
-    await fetch("http://localhost:8080/cliente/addSiniestro", {
+    await fetch(`${process.env.REACT_APP_FETCH_URL ? process.env.REACT_APP_FETCH_URL : 'http://localhost:8080'}/cliente/addSiniestro`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

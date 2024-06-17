@@ -21,7 +21,7 @@
 
     /* Effect where it is ensured that the agent username is obtained before calling the api*/
     useEffect(() => {
-      const hostUrl = "http://localhost:8080/messages/getMessages";
+      const hostUrl = `${process.env.REACT_APP_FETCH_URL ? process.env.REACT_APP_FETCH_URL : 'http://localhost:8080'}/messages/getMessages`;
       if (Agent !== null) {
         setUrl(`${hostUrl}?Sender=supervisor&Receiver=${Agent.username}&Date=${year}-${month}-${day}`);
       } else {

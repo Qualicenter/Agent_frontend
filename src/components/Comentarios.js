@@ -26,7 +26,7 @@ function Comentario({ Agent }) {
   };
 
   /** API to retrieve feedback*/
-  const [url] = useState(`http://localhost:8080/EncuestaModel/getEncuesta`);
+  const [url] = useState(`${process.env.REACT_APP_FETCH_URL ? process.env.REACT_APP_FETCH_URL : 'http://localhost:8080'}/EncuestaModel/getEncuesta`);
 
   /**Function to download the API */
   const descargar = useCallback(async () => {

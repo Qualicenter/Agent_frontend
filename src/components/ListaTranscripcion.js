@@ -15,7 +15,7 @@ const ListaTranscripcion = ({ contactId }) => {
    /*State variables and props from parent component*/
   const referencia = useRef();
   const [arrTranscripcion, setTranscripcion] = useState([]);
-  const [url] = useState("http://localhost:8080/agente/consultaTranscripcion2");
+  const [url] = useState(`${process.env.REACT_APP_FETCH_URL ? process.env.REACT_APP_FETCH_URL : 'http://localhost:8080'}/agente/consultaTranscripcion2`);
 
   
   /*Function to fetch the transcription of the conversation*/

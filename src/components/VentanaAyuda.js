@@ -15,7 +15,7 @@ const VentanaAyuda = (props) => {
 
   // Function to send the message to the supervisor
   const enviarMensaje = async () => {
-    await fetch("http://localhost:8080/messages/createMessage", {
+    await fetch(`${process.env.REACT_APP_FETCH_URL ? process.env.REACT_APP_FETCH_URL : 'http://localhost:8080'}/messages/createMessage`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
