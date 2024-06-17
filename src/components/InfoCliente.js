@@ -8,7 +8,7 @@ import styled from "styled-components";
 import InfoComponent from "./InfoComponent";
 import TimerComponent from "./TimerComponent";
 import { CustomerProfiles, SearchProfilesCommand } from '@aws-sdk/client-customer-profiles';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 /* Style characteristics for the components used in the client script */
 const Container = styled.div`
@@ -39,7 +39,6 @@ const InfoCliente = ( props ) => {
     const {
       clientPhoneNumber,
       clientContactId,
-      setClientVehicles,
       clientQueueDateTime, // Queue start date time string
       clientContactInformation, // Client information to be set with fetch customer API
       setClientContactInformation
@@ -69,6 +68,41 @@ const InfoCliente = ( props ) => {
       }
     }, [clientBirthDate]);
 
+    // Function to fetch the client information from the API 
+    const fetchCustomerProfile = useCallback(async (phone) => {
+      try {
+        const credentials = {
+          accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID, //AWS_ACCESS_KEY_ID
+          secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY, //AWS_SECRET_ACCESS_KEY
+          region: 'us-east-1' //AWS_REGION
+        };
+        
+        const client = new CustomerProfiles({
+          region: credentials.region,
+          credentials: credentials
+        });
+        
+        const domainName = 'amazon-connect-qualicentec';
+        
+        const params = {
+          DomainName: domainName,
+          KeyName: 'PhoneNumber',
+          Values: [phone],
+          MaxResults: 1
+        };
+        
+        const command = new SearchProfilesCommand(params);
+        const response = await client.send(command);
+        
+        if (response.Items && response.Items.length > 0) {
+          const contact = response.Items[0];
+          setClientContactInformation(contact); // Update state with fetched contact information
+        } 
+      } catch (error) {
+        console.error("Contact Event - Error fetching contact information:", error);
+      }
+    }, [setClientContactInformation]);
+
     // Contact Id updates (When a call is connecting it turns to ContactId of the call, when the call is terminated it is Null again)
     useEffect(() => {
       console.log("Contact Event - Contact ID from useEffect:", {clientContactId});
@@ -78,7 +112,7 @@ const InfoCliente = ( props ) => {
       } else {
           setClientContactInformation(null);
       }
-    }, [clientContactId]);
+    }, [clientContactId, clientPhoneNumber, fetchCustomerProfile, setClientContactInformation]);
 
     // Client information updates (If the contact information is not null, update the front end with the information)
     useEffect(() => {
@@ -94,14 +128,12 @@ const InfoCliente = ( props ) => {
         setClientBirthDate(clientContactInformation.BirthDate);
         setClientPoliza(clientContactInformation.Attributes.Poliza);
         setClientPartyTypeString(clientContactInformation.PartyTypeString);
-        setClientVehicles(clientContactInformation.AdditionalInformation);
       // If the contact information is null, update the front end to show no contact information
       } else {
         setClientName('');
         setClientGender('');
         setClientPoliza('');
         setClientPartyTypeString('');
-        setClientVehicles(null);
         setClientAge('');
         setClientBirthDate(null);
       }
@@ -115,41 +147,6 @@ const InfoCliente = ( props ) => {
         setClientQueueDateTimeToggle(null);
       }
     }, [clientQueueDateTime]);
-
-    // Function to fetch the client information from the API 
-    const fetchCustomerProfile = async (phone) => {
-        try {
-          const credentials = {
-            accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID, //AWS_ACCESS_KEY_ID
-            secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY, //AWS_SECRET_ACCESS_KEY
-            region: 'us-east-1' //AWS_REGION
-          };
-          
-          const client = new CustomerProfiles({
-            region: credentials.region,
-            credentials: credentials
-          });
-          
-          const domainName = 'amazon-connect-qualicentec';
-          
-          const params = {
-            DomainName: domainName,
-            KeyName: 'PhoneNumber',
-            Values: [phone],
-            MaxResults: 1
-          };
-          
-          const command = new SearchProfilesCommand(params);
-          const response = await client.send(command);
-          
-          if (response.Items && response.Items.length > 0) {
-            const contact = response.Items[0];
-            setClientContactInformation(contact); // Update state with fetched contact information
-          } 
-        } catch (error) {
-          console.error("Contact Event - Error fetching contact information:", error);
-        }
-    };
 
     return (
         <Container>
