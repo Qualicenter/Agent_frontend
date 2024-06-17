@@ -10,7 +10,11 @@ import {
   ForgotPasswordCommand,
   InitiateAuthCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
-import config from "../config.json";
+
+const config = {
+  region: process.env.REACT_APP_COGNITO_REGION,
+  clientId: process.env.REACT_APP_COGNITO_CLIENT_ID,
+};
 
 export const cognitoClient = new CognitoIdentityProviderClient({
   region: config.region,
