@@ -1,8 +1,6 @@
 /**
+ * @author Jorge Iván Rodríguez Reyes
  * @author Angel Armando Marquez Curiel
- * @author
- * @author
- * 
  * Component that displays the transcription of the active call
 */
 

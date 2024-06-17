@@ -1,6 +1,7 @@
 /**
  * @author Gustavo Téllez Mireles
  * @author Pablo Spínola López
+ * @author Jorge Iván Rodríguez Reyes
  * Component that initializes the Connect Streams API and initiates the subscription to contact events and agent events
  * Embeds an iframe to display the Connect Streams API
 */

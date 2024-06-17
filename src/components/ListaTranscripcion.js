@@ -1,8 +1,6 @@
 /**
+ * @author Jorge Iván Rodríguez Reyes
  * @author Angel Armando Marquez Curiel
- * @author
- * @author
- * 
  * Component that downloads the transcription of the active call and uses Transcripcion.js to display it
 */
 
